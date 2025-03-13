@@ -1,8 +1,23 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    
-    <%@ include file="../partials/header.jsp"%>
-    
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Online Help Desk</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Contact Us</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="contact.html">Contact</a>
+            <a href="faq.html">FAQ</a>
+        </nav>
+    </header>
+
+
     <div class="contact-container">
         <h2>We'd love to hear from you!</h2>
         <p>If you have any questions, comments, or need support, feel free to reach out to us using the form below.</p>
@@ -32,4 +47,8 @@
         </form>
     </div>
 
-   	<%@ include file="../partials/footer.jsp"%>
+    <footer>
+        <p>&copy; 2025 Online Help Desk. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>
