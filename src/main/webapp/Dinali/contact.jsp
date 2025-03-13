@@ -1,4 +1,4 @@
-<!-- contact.html -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,6 +16,7 @@
             <a href="faq.html">FAQ</a>
         </nav>
     </header>
+
 
     <div class="contact-container">
         <h2>We'd love to hear from you!</h2>
