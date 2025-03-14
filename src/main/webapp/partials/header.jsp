@@ -55,7 +55,7 @@
         }
 
         nav ul li a:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: #0056b3;
         }
 
         .btn {
