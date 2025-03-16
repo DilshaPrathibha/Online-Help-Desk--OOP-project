@@ -104,6 +104,10 @@
 
 </style>
 
+<h2 style="text-align: center; color: #2c3e50; margin-top: 20px; font-weight: 600;">
+    Live chat
+</h2>
+
 <div class="chat-container" id="chatContainer">
   <div class="ai-chat-box">Hello! How can I help you today?</div>
 </div>
