@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Counseling Services - Online Help Desk</title>
+    <title>Online Help Desk</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styleD.css">
+
 </head>
 <body>
     <header>
@@ -16,43 +18,65 @@
                 <li><a href="materials.html">Study Materials</a></li>
                 <li><a href="videos.html">Videos</a></li>
                 <li><a href="tickets.html">Support Tickets</a></li>
+                <li><a href="counseling.html">Counseling</a></li>
                 <li><a href="announcements.html">Live Announcements</a></li>
-                <li><a href="contact.html">Contact us</a></li>
-                <li><a href="faq.html">FAQ</a></li>
-                <li><a href="counseling.html">Counseling Services</a></li>
+                <li><a href="contact.html">Contact</a></li>
             </ul>
         </nav>
     </header>
 
-    <section class="counseling-info">
-        <h2>Student Counseling Services</h2>
-        <p>We understand that academic life can be stressful. If you're feeling overwhelmed, we're here to help. Our counseling services are available to support you through any personal or academic challenges.</p>
-        
-        <h3>How We Can Help</h3>
-        <ul>
-            <li>One-on-one counseling sessions with licensed professionals</li>
-            <li>Workshops on stress management, time management, and mental health</li>
-            <li>Resources for coping with academic pressure and personal stress</li>
-        </ul>
+    <div class="container">
+        <div class="leftside">
+                <h1 class="topic">Counseling Appointment</h1><br>
+                <p class="content">Please fill out this form to schedule a counseling appointment. We will notify you once your appointment is confirmed.</p>
+        </div>
+        <div class="rightside">
+            <form id="requestForm" method="POST" action="" >
+                <label for="sname">Student Name:</label><br>
+                <input type="text" name="sname" required><br>
 
-        <h3>Book a Session</h3>
-        <form action="bookSession.php" method="POST">
-            <label for="name">Your Name:</label>
-            <input type="text" id="name" name="name" required><br><br>
+                <label for="student_id">Student ID:</label><br>
+                <input type="text" name="student_id" required><br>
 
-            <label for="email">Your Email:</label>
-            <input type="email" id="email" name="email" required><br><br>
+                <label for="phone">Phone Number:</label><br>
+                <input type="tel" name="phone" required><br>
+    
+                <label for="reason">Reason for Counseling:</label><br>
+                <select name="reason" required>
+                    <option value="">Select Reason</option>
+                    <option value="Academic Stress">Academic Stress</option>
+                    <option value="Career Guidance">Career Guidance</option>
+                    <option value="Personal Issues">Personal Issues</option>
+                    <option value="Mental Health Support">Mental Health Support</option>
+                    <option value="Other">Other..</option>
+                </select><br>
 
-            <label for="time">Preferred Session Time:</label>
-            <input type="datetime-local" id="time" name="time" required><br><br>
+                <label for="appointment_date">Appointment Date:</label><br>
+                <input type="date" name="appointment_date" required><br>
+         
+                
+                <label for="mode">Mode of Counseling:</label><br>
+                <select name="mode" required>
+                    <option value="">Select Type</option>
+                    <option value="In-Person">In-Person</option>
+                    <option value="Virtual">Virtual</option>
+                    <option value="Phone Call">Phone Call</option>
+                </select><br>
+    
+                <label for="counselor">Preferred Counselor:</label><br>
+                <select name="counselor" required>
+                    <option value="">Select a counselor</option>
+                </select><br>
 
-            <label for="message">Tell Us About Your Concerns:</label><br>
-            <textarea id="message" name="message" rows="5" required></textarea><br><br>
-
-            <button type="submit">Book Session</button>
-        </form>
-    </section>
-
+                <label for="problem">Briefly Describe Your Concern:</label><br>
+                <textarea name="reason" rows="4" cols="50" placeholder="Enter your concern" required></textarea><br><br>
+    
+                <div id="responseMessage" class="responseMessage"></div>
+                <button class="btn" type="submit">Book Appointment</button>
+            </form>
+        </div>
+    </div>
+    
     <footer>
         <p>&copy; 2025 Online Help Desk | All rights reserved.</p>
     </footer>

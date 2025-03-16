@@ -1,53 +1,74 @@
-<!-- contact.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us - Online Help Desk</title>
+    <title>Online Help Desk</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styleD.css">
+
+    <script src="./script/fontawe.js" crossorigin="anonymous"></script>
 </head>
-<body>
+<body>  
     <header>
         <h1>Contact Us</h1>
         <nav>
-            <a href="index.html">Home</a>
-            <a href="contact.html">Contact</a>
-            <a href="faq.html">FAQ</a>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="forum.html">Forum</a></li>
+                <li><a href="materials.html">Study Materials</a></li>
+                <li><a href="videos.html">Videos</a></li>
+                <li><a href="tickets.html">Support Tickets</a></li>
+                <li><a href="counseling.html">Counseling</a></li>
+                <li><a href="announcements.html">Live Announcements</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
         </nav>
     </header>
 
-    <div class="contact-container">
-        <h2>We'd love to hear from you!</h2>
-        <p>If you have any questions, comments, or need support, feel free to reach out to us using the form below.</p>
+        <div class="container">
+            <div class="grid-container">
+                <div class="grid-item">
+                    <img class="imgc1" src="./images/contact.jpg" alt="Image 1">
+                </div>
 
-        <form action="submitContactForm.php" method="POST">
-            <div class="form-group">
-                <label for="name">Full Name</label>
-                <input type="text" id="name" name="name" required placeholder="Your Full Name">
+                
+                <div class="grid-item">
+                    <div class="Cheader">
+                        <h1 class="topic">We're here to help! </h1><br>
+                        <div>
+                            <p class="content">Have questions or need assistance? Whether it's related to our services, troubleshooting, or any other inquiries, don’t hesitate to reach out. 
+                                Our team is ready to assist you through the contact options provided below. Your feedback and inquiries are important to us, 
+                                and we’re committed to offering support in any way we can. </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid-item">
+                    <div>
+                        <h1 class="topic">Follow Us</h1><br>
+
+                        <div class="icons1">
+                            <a href="mailto:it23556584@my.sliit.lk"><i class="fa-solid fa-envelope fa-1x"></i></a>
+                            <a href="tel:+94712003344"> <i class="fa-solid fa-phone fa-1x"></i></a>
+                            <a href="https://www.facebook.com/"><i class="fa-brands fa-facebook fa-1x"></i></a>
+                            <a  href="https://x.com/"><i class="fa-brands fa-twitter fa-1x"></i></a>
+                        </div>
+                    </div>
+                </div> 
+                
+                <div class="grid-item">
+                    <div class="location-map">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d496.04117625383344!2d80.54639002930917!3d5.949265943001073!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae138d4871611eb%3A0xb61d2dbf9146d81!2sSLIIT%20Matara%20Center!5e0!3m2!1sen!2slk!4v1728037208477!5m2!1sen!2slk"
+                        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>        
+                    </div>
+    
+                </div>
             </div>
-
-            <div class="form-group">
-                <label for="email">Email Address</label>
-                <input type="email" id="email" name="email" required placeholder="Your Email Address">
-            </div>
-
-            <div class="form-group">
-                <label for="subject">Subject</label>
-                <input type="text" id="subject" name="subject" required placeholder="Subject of your message">
-            </div>
-
-            <div class="form-group">
-                <label for="message">Message</label>
-                <textarea id="message" name="message" required rows="5" placeholder="Your Message"></textarea>
-            </div>
-
-            <button type="submit">Submit</button>
-        </form>
-    </div>
+        </div>
 
     <footer>
-        <p>&copy; 2025 Online Help Desk. All Rights Reserved.</p>
+        <p>&copy; 2025 Online Help Desk | All rights reserved.</p>
     </footer>
 </body>
 </html>
