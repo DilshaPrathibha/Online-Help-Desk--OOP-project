@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Help Desk</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styleD.css">
+
+</head>
+<body>
+    <header>
+        <h1>Online Help Desk</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="forum.html">Forum</a></li>
+                <li><a href="materials.html">Study Materials</a></li>
+                <li><a href="videos.html">Videos</a></li>
+                <li><a href="tickets.html">Support Tickets</a></li>
+                <li><a href="counseling.html">Counseling</a></li>
+                <li><a href="announcements.html">Live Announcements</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="leftside">
+                <h1 class="topic">Counseling Appointment</h1><br>
+                <p class="content">Please fill out this form to schedule a counseling appointment. We will notify you once your appointment is confirmed.</p>
+        </div>
+        <div class="rightside">
+            <form id="requestForm" method="POST" action="" >
+                <label for="sname">Student Name:</label><br>
+                <input type="text" name="sname" required><br>
+
+                <label for="student_id">Student ID:</label><br>
+                <input type="text" name="student_id" required><br>
+
+                <label for="phone">Phone Number:</label><br>
+                <input type="tel" name="phone" required><br>
+    
+                <label for="reason">Reason for Counseling:</label><br>
+                <select name="reason" required>
+                    <option value="">Select Reason</option>
+                    <option value="Academic Stress">Academic Stress</option>
+                    <option value="Career Guidance">Career Guidance</option>
+                    <option value="Personal Issues">Personal Issues</option>
+                    <option value="Mental Health Support">Mental Health Support</option>
+                    <option value="Other">Other..</option>
+                </select><br>
+
+                <label for="appointment_date">Appointment Date:</label><br>
+                <input type="date" name="appointment_date" required><br>
+         
+                
+                <label for="mode">Mode of Counseling:</label><br>
+                <select name="mode" required>
+                    <option value="">Select Type</option>
+                    <option value="In-Person">In-Person</option>
+                    <option value="Virtual">Virtual</option>
+                    <option value="Phone Call">Phone Call</option>
+                </select><br>
+    
+                <label for="counselor">Preferred Counselor:</label><br>
+                <select name="counselor" required>
+                    <option value="">Select a counselor</option>
+                </select><br>
+
+                <label for="problem">Briefly Describe Your Concern:</label><br>
+                <textarea name="reason" rows="4" cols="50" placeholder="Enter your concern" required></textarea><br><br>
+    
+                <div id="responseMessage" class="responseMessage"></div>
+                <button class="btn" type="submit">Book Appointment</button>
+            </form>
+        </div>
+    </div>
+    
+    <footer>
+        <p>&copy; 2025 Online Help Desk | All rights reserved.</p>
+    </footer>
+</body>
+</html>
