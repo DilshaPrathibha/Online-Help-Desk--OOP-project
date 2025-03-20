@@ -4,7 +4,7 @@
     <%@ include file="../partials/header.jsp"%>
     
     <section class="hero">
-        <h2>Welcome to Your Semester Help Desk</h2>
+        <h2>Welcome to Your Semester Help Desk..</h2>
         <p>Find study materials, ask questions, and engage in interactive learning.</p>
     </section>
 
