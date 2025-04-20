@@ -86,7 +86,7 @@
                 <li><a href="../Dinali/contact.jsp">Contact us</a></li>
                 <li><a href="../Shamal/faq.html">FAQ</a></li>
                 <li><a href="../Dinali/counseling.jsp">Counseling Services</a></li>
-                <li><a href="../Shamal/login.jsp" class="btn">Login</a></li>
+                <li><a href="../Bupathi/login.jsp" class="btn">Login</a></li>
                 <li><a href="../Bupathi/register.jsp" class="btn">Register</a></li>
 
             </ul>
