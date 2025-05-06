@@ -104,7 +104,13 @@ public class TicketServlet extends HttpServlet {
             ticket.setCreatedAt(createdAt);
 
             boolean isCreated = ticketService.createTicket(ticket);
-            response.sendRedirect(request.getContextPath() + "/Dilsha/tickets.jsp?success=" + isCreated);
+
+            if (isCreated) {
+                response.sendRedirect(request.getContextPath() + "/Bupathi/index.jsp?success=" + isCreated); // update here to show submitted msg
+            } else {
+                response.sendRedirect(request.getContextPath() + "/Dilsha/tickets.jsp?success=" + isCreated);
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
             response.sendRedirect("error.jsp");

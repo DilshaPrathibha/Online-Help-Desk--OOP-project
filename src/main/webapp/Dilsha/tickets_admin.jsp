@@ -110,9 +110,6 @@
         border: 1px solid #ccc;
     }
 
-    /* Responsive Styling for Mobile Devices */
-	
-	}
 
 </style>
 
