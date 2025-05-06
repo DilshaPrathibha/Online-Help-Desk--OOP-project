@@ -10,16 +10,19 @@ public class TicketService {
 
     // Create a new ticket
     public boolean createTicket(Ticket ticket) {
-    	String query = "INSERT INTO tickets (name, email, issue_type, description, attachment, status) VALUES (?, ?, ?, ?, ?, ?)";
-        try (Connection connection = utils.DBConnection.getConnection();
+        String query = "INSERT INTO tickets (name, student_id, faculty, email, phone, issue_type, subject, description, attachment, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, ticket.getName());
-            stmt.setString(2, ticket.getEmail());
-            stmt.setString(3, ticket.getIssueType());
-            stmt.setString(4, ticket.getDescription());
-            stmt.setString(5, ticket.getAttachment());
-            stmt.setString(6, ticket.getStatus());
-            //stmt.setTimestamp(7, ticket.getCreatedAt()); remove this
+            stmt.setString(2, ticket.getStudentId());
+            stmt.setString(3, ticket.getFaculty());
+            stmt.setString(4, ticket.getEmail());
+            stmt.setString(5, ticket.getPhone());
+            stmt.setString(6, ticket.getIssueType());
+            stmt.setString(7, ticket.getSubject());
+            stmt.setString(8, ticket.getDescription());
+            stmt.setString(9, ticket.getAttachment());
+            stmt.setString(10, ticket.getStatus());
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -30,7 +33,7 @@ public class TicketService {
     // Retrieve a ticket by ID
     public Ticket getTicket(int ticketId) {
         String query = "SELECT * FROM tickets WHERE ticket_id = ?";
-        try (Connection connection = utils.DBConnection.getConnection();
+        try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, ticketId);
             ResultSet rs = stmt.executeQuery();
@@ -38,8 +41,12 @@ public class TicketService {
                 Ticket ticket = new Ticket();
                 ticket.setTicketId(rs.getInt("ticket_id"));
                 ticket.setName(rs.getString("name"));
+                ticket.setStudentId(rs.getString("student_id"));
+                ticket.setFaculty(rs.getString("faculty"));
                 ticket.setEmail(rs.getString("email"));
+                ticket.setPhone(rs.getString("phone"));
                 ticket.setIssueType(rs.getString("issue_type"));
+                ticket.setSubject(rs.getString("subject"));
                 ticket.setDescription(rs.getString("description"));
                 ticket.setAttachment(rs.getString("attachment"));
                 ticket.setStatus(rs.getString("status"));
@@ -56,15 +63,19 @@ public class TicketService {
     public List<Ticket> getAllTickets() {
         List<Ticket> tickets = new ArrayList<>();
         String query = "SELECT * FROM tickets";
-        try (Connection connection = utils.DBConnection.getConnection();  // try catch
+        try (Connection connection = DBConnection.getConnection();
              Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
                 Ticket ticket = new Ticket();
                 ticket.setTicketId(rs.getInt("ticket_id"));
                 ticket.setName(rs.getString("name"));
+                ticket.setStudentId(rs.getString("student_id"));
+                ticket.setFaculty(rs.getString("faculty"));
                 ticket.setEmail(rs.getString("email"));
+                ticket.setPhone(rs.getString("phone"));
                 ticket.setIssueType(rs.getString("issue_type"));
+                ticket.setSubject(rs.getString("subject"));
                 ticket.setDescription(rs.getString("description"));
                 ticket.setAttachment(rs.getString("attachment"));
                 ticket.setStatus(rs.getString("status"));
@@ -77,6 +88,7 @@ public class TicketService {
         return tickets;
     }
 
+    // Update ticket information
     public boolean updateTicket(int id, String subject, String description, String status) {
         String query = "UPDATE tickets SET subject = ?, description = ?, status = ? WHERE ticket_id = ?";
         try (Connection conn = DBConnection.getConnection();
@@ -92,11 +104,10 @@ public class TicketService {
         return false;
     }
 
-
     // Delete a ticket
     public boolean deleteTicket(int ticketId) {
         String query = "DELETE FROM tickets WHERE ticket_id = ?";
-        try (Connection connection = utils.DBConnection.getConnection();
+        try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, ticketId);
             return stmt.executeUpdate() > 0;
@@ -106,6 +117,7 @@ public class TicketService {
         return false;
     }
 
+    // Update ticket status
     public boolean updateTicketStatus(int ticketId, String status) {
         String query = "UPDATE tickets SET status = ? WHERE ticket_id = ?";
         try (Connection conn = DBConnection.getConnection();
@@ -119,9 +131,8 @@ public class TicketService {
         return false;
     }
 
-
-	public Ticket getTicketId(int ticketId) { // need for servlet
-		// TODO Auto-generated method stub
-		return null;
-	}
+    // Get a ticket by its ID (for servlet use)
+    public Ticket getTicketId(int ticketId) {
+        return getTicket(ticketId); // Reusing the getTicket method to fetch by ID
+    }
 }

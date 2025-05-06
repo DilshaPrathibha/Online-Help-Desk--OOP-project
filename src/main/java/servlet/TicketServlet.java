@@ -4,17 +4,26 @@ import model.Ticket;
 import services.TicketService;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Paths;
 import java.sql.Timestamp;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
-@WebServlet("/ticket")   // refers /ticket to come from forms.. 
+@MultipartConfig(
+    fileSizeThreshold = 1024 * 1024 * 1,   // 1MB
+    maxFileSize = 1024 * 1024 * 10,        // 10MB
+    maxRequestSize = 1024 * 1024 * 15      // 15MB
+)
+@WebServlet("/ticket")
 public class TicketServlet extends HttpServlet {
-    private TicketService ticketService = new TicketService();  //
+    private TicketService ticketService = new TicketService();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -30,7 +39,7 @@ public class TicketServlet extends HttpServlet {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendRedirect("error.jsp"); // create a custom error page if needed
+            response.sendRedirect("error.jsp");
         }
     }
 
@@ -39,11 +48,11 @@ public class TicketServlet extends HttpServlet {
         try {
             String action = request.getParameter("action");
 
-            if (action == null || action.isEmpty()) {          // Default - runs when action is NULL 
-                response.sendRedirect("Dilsha/tickets.jsp");   //(runs when it's the first time)
+            if (action == null || action.isEmpty()) {
+                response.sendRedirect("Dilsha/tickets.jsp");
                 return;
             }
-            
+
             if ("list".equals(action)) {
                 listTickets(request, response);
             } else if ("get".equals(action)) {
@@ -51,31 +60,51 @@ public class TicketServlet extends HttpServlet {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendRedirect("error.jsp"); //
+            response.sendRedirect("error.jsp");
         }
     }
 
-    private void createTicket(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void createTicket(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         try {
             String name = request.getParameter("name");
+            String studentId = request.getParameter("studentId");
+            String faculty = request.getParameter("faculty");
+            String subject = request.getParameter("subject");
             String email = request.getParameter("email");
+            String phone = request.getParameter("phone");
             String issueType = request.getParameter("issueType");
             String description = request.getParameter("description");
-            String attachment = request.getParameter("attachment");
             String status = "Open";
             Timestamp createdAt = new Timestamp(System.currentTimeMillis());
 
+            // Handle file upload
+            Part filePart = request.getPart("attachment");
+            String fileName = null;
+            if (filePart != null && filePart.getSize() > 0) {
+                fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+                String uploadPath = getServletContext().getRealPath("") + File.separator + "uploads";
+
+                File uploadDir = new File(uploadPath);
+                if (!uploadDir.exists()) uploadDir.mkdir();
+
+                filePart.write(uploadPath + File.separator + fileName);
+            }
+
             Ticket ticket = new Ticket();
             ticket.setName(name);
+            ticket.setStudentId(studentId);
+            ticket.setFaculty(faculty);
+            ticket.setSubject(subject);
             ticket.setEmail(email);
+            ticket.setPhone(phone);
             ticket.setIssueType(issueType);
             ticket.setDescription(description);
-            ticket.setAttachment(attachment);
+            ticket.setAttachment(fileName);  // Store filename only
             ticket.setStatus(status);
             ticket.setCreatedAt(createdAt);
 
             boolean isCreated = ticketService.createTicket(ticket);
-            response.sendRedirect(request.getContextPath() + "/Dilsha/tickets.jsp?success=" + isCreated); // when not entered to db // add error msg
+            response.sendRedirect(request.getContextPath() + "/Dilsha/tickets.jsp?success=" + isCreated);
         } catch (Exception e) {
             e.printStackTrace();
             response.sendRedirect("error.jsp");
@@ -88,7 +117,7 @@ public class TicketServlet extends HttpServlet {
             String status = request.getParameter("status");
 
             boolean isUpdated = ticketService.updateTicketStatus(ticketId, status);
-            response.sendRedirect("Dilsha/tickets.jsp?updated=" + isUpdated);   //  add something?
+            response.sendRedirect("Dilsha/tickets.jsp?updated=" + isUpdated);
         } catch (Exception e) {
             e.printStackTrace();
             response.sendRedirect("error.jsp");
@@ -100,7 +129,7 @@ public class TicketServlet extends HttpServlet {
             int ticketId = Integer.parseInt(request.getParameter("ticketId"));
 
             boolean isDeleted = ticketService.deleteTicket(ticketId);
-            response.sendRedirect("Dilsha/tickets.jsp?deleted=" + isDeleted);  //  add something?
+            response.sendRedirect("Dilsha/tickets.jsp?deleted=" + isDeleted);
         } catch (Exception e) {
             e.printStackTrace();
             response.sendRedirect("error.jsp");

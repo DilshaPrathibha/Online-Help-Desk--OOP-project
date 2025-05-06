@@ -1,4 +1,5 @@
-// add auto redirect if not logged in as an admin
+//session checks are commented
+
 package servlet;
 
 import java.io.IOException;
@@ -27,9 +28,10 @@ public class AdminTicketServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String action = request.getParameter("action");
-
+        // Session check for admin login
         HttpSession session = request.getSession(false);
+        
+        // Temporary check for testing (Simulating an admin session)
         if (session == null || session.getAttribute("admin") == null) {
             // For testing only — simulate admin session
             session = request.getSession(true);
@@ -37,18 +39,30 @@ public class AdminTicketServlet extends HttpServlet {
             session.setAttribute("firstName", "Test");
             session.setAttribute("lastName", "Admin");
             session.setAttribute("picture", "default.jpg");
-            // No redirect
+            // No redirect during testing
         }
 
+        // If this were in production, this block would redirect non-admins to login
+        // if (session == null || session.getAttribute("admin") == null) {
+        //     response.sendRedirect(request.getContextPath() + "/login.jsp");
+        //     return;
+        // }
+
+        // Set session attributes for admin
         request.setAttribute("firstName", session.getAttribute("firstName"));
         request.setAttribute("lastName", session.getAttribute("lastName"));
         request.setAttribute("picture", session.getAttribute("picture"));
 
+        // Handle the action parameter to determine the page behavior
+        String action = request.getParameter("action");
+
         if (action == null || action.equals("list")) {
+            // Fetch all tickets for the admin to manage
             List<Ticket> tickets = ticketService.getAllTickets();
             request.setAttribute("tickets", tickets);
             request.getRequestDispatcher("/Dilsha/tickets_admin.jsp").forward(request, response);
         } else if (action.equals("view")) {
+            // Fetch and display a specific ticket's details
             int id = Integer.parseInt(request.getParameter("id"));
             Ticket ticket = ticketService.getTicket(id);
             request.setAttribute("ticket", ticket);
@@ -56,11 +70,9 @@ public class AdminTicketServlet extends HttpServlet {
         }
     }
 
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // No post actions yet (like editing/deleting tickets), but reserved for future
+        // Reserved for future post actions (e.g., ticket editing/deletion)
         doGet(request, response);
     }
 }
-

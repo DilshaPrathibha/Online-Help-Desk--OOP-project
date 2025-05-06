@@ -18,12 +18,13 @@
     }
 
     .admin-container {
-        max-width: 1000px;
+        max-width: 100%;
         margin: 30px auto;
         background: #fff;
         padding: 20px;
         border-radius: 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        overflow-x: auto;
     }
 
     .table-wrapper {
@@ -33,8 +34,7 @@
     table {
         width: 100%;
         border-collapse: collapse;
-        margin-top: 20px;
-        min-width: 800px;
+        min-width: 1200px; /* Ensure minimum width for horizontal scroll */
     }
 
     th, td {
@@ -43,6 +43,8 @@
         border: 1px solid #ccc;
         font-size: 14px;
         vertical-align: top;
+        word-wrap: break-word;
+        white-space: normal;
     }
 
     th {
@@ -108,36 +110,14 @@
         border: 1px solid #ccc;
     }
 
-    /* Mobile */
-    @media (max-width: 600px) {
-        .admin-container {
-            margin: 15px;
-            padding: 15px;
-        }
+    /* Responsive Styling for Mobile Devices */
+	
+	}
 
-        table, th, td {
-            font-size: 12px;
-        }
-
-        .action-buttons {
-            flex-direction: column;
-            align-items: stretch;
-        }
-
-        .action-buttons a,
-        .action-buttons button {
-            width: 100%;
-        }
-
-        form.inline-form {
-            flex-direction: column;
-            align-items: stretch;
-        }
-    }
 </style>
 
 <div class="admin-container">
-    <h2>Manage Support Tickets</h2>
+    <h2>Manage Support Tickets</h2> <br>
 
     <c:if test="${empty tickets}">
         <p>No tickets found.</p>
@@ -151,8 +131,13 @@
                         <th>ID</th>
                         <th>Name</th>
                         <th>Email</th>
+                        <th>Student ID</th>
+                        <th>Faculty</th>
+                        <th>Subject</th>
+                        <th>Phone</th>
                         <th>Issue Type</th>
                         <th>Description</th>
+                        <th>Attachment</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
@@ -163,8 +148,25 @@
                             <td>${ticket.ticketId}</td>
                             <td>${ticket.name}</td>
                             <td>${ticket.email}</td>
+                            <td>${ticket.studentId}</td>
+                            <td>${ticket.faculty}</td>
+                            <td>${ticket.subject}</td>
+                            <td>${ticket.phone != null ? ticket.phone : 'N/A'}</td>
                             <td>${ticket.issueType}</td>
                             <td>${ticket.description}</td>
+                            <td>
+							    <c:choose>
+							        <c:when test="${not empty ticket.attachment}">
+							            <a href="${pageContext.request.contextPath}/uploads/${ticket.attachment}" target="_blank" download>
+							                ${ticket.attachment}
+							            </a>
+							        </c:when>
+							        <c:otherwise>
+							            No file
+							        </c:otherwise>
+							    </c:choose>
+							</td>
+
                             <td>${ticket.status}</td>
                             <td>
                                 <div class="action-buttons">
