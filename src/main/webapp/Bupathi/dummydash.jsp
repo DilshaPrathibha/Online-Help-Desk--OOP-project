@@ -1,227 +1,186 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Dashboard</title>
+    <title>Student Dashboard</title>
     <style>
-        * {
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background-color: #f5f5f5;
+            background-color: #f8f9fa;
             color: #333;
         }
-        
-        .dashboard-container {
-            display: flex;
-            min-height: 100vh;
-        }
-        
-        .sidebar {
-            width: 250px;
-            background-color: #2c3e50;
+        .header {
+            background-color: #343a40;
             color: white;
-            padding: 20px 0;
-        }
-        
-        .sidebar-header {
-            padding: 0 20px 20px;
-            border-bottom: 1px solid #34495e;
-        }
-        
-        .sidebar-nav {
-            padding: 20px 0;
-        }
-        
-        .nav-item {
-            padding: 10px 20px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        
-        .nav-item:hover {
-            background-color: #34495e;
-        }
-        
-        .nav-item.active {
-            background-color: #3498db;
-        }
-        
-        .main-content {
-            flex: 1;
-            padding: 30px;
-        }
-        
-        .dashboard-header {
+            padding: 15px 25px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
-        
-        .dashboard-title {
-            font-size: 24px;
-            font-weight: 600;
-        }
-        
         .logout-btn {
-            background-color: #e74c3c;
+            background-color: #dc3545;
             color: white;
             border: none;
-            padding: 8px 15px;
+            padding: 8px 16px;
             border-radius: 4px;
             cursor: pointer;
+            font-weight: 500;
         }
-        
-        .dashboard-card {
-            background-color: white;
+        .container {
+            display: flex;
+            min-height: calc(100vh - 65px);
+        }
+        .sidebar {
+            width: 220px;
+            background-color: #495057;
+            padding: 20px 0;
+        }
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 12px 25px;
+            transition: background-color 0.2s;
+            font-weight: 500;
+        }
+        .sidebar a:hover {
+            background-color: #3d4348;
+        }
+        .main-content {
+            flex: 1;
+            padding: 25px;
+        }
+        .profile-card {
+            background: white;
             border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+        .profile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 20px;
         }
-        
-        .card-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 15px;
+        .profile-header h3 {
+            margin: 0;
             color: #2c3e50;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 10px;
         }
-        
+        .edit-btn {
+            background-color: #17a2b8;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+        }
         .info-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
+            gap: 20px;
         }
-        
         .info-item {
             margin-bottom: 10px;
         }
-        
         .info-label {
             font-weight: 600;
-            color: #7f8c8d;
+            color: #6c757d;
+            font-size: 14px;
             margin-bottom: 5px;
-            font-size: 14px;
         }
-        
-        .info-value {
-            font-size: 16px;
+        .cards-section {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 25px;
         }
-        
-        .payment-status {
-            display: inline-block;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 14px;
-            font-weight: 500;
+        .cards-section h3 {
+            margin-top: 0;
+            color: #2c3e50;
         }
-        
-        .status-paid {
-            background-color: #d4edda;
-            color: #155724;
-        }
-        
-        .status-pending {
-            background-color: #fff3cd;
-            color: #856404;
-        }
-        
-        .add-payment-btn {
-            background-color: #3498db;
+        .cards-btn {
+            background-color: #28a745;
             color: white;
             border: none;
-            padding: 8px 15px;
+            padding: 10px 20px;
             border-radius: 4px;
             cursor: pointer;
-            margin-top: 10px;
+            font-weight: 500;
+            font-size: 15px;
+            transition: background-color 0.2s;
+        }
+        .cards-btn:hover {
+            background-color: #218838;
         }
     </style>
 </head>
 <body>
-    <div class="dashboard-container">
-        <!-- Sidebar Navigation -->
+    <div class="header">
+        <h2>Student Dashboard</h2>
+        <form action="${pageContext.request.contextPath}/logout" method="post">
+            <button type="submit" class="logout-btn">Logout</button>
+        </form>
+    </div>
+    
+    <div class="container">
         <div class="sidebar">
-            <div class="sidebar-header">
-                <h2>User Dashboard</h2>
-            </div>
-            <div class="sidebar-nav">
-                <div class="nav-item active">Profile</div>
-                <div class="nav-item">Payments</div>
-                <div class="nav-item">Settings</div>
-                <div class="nav-item">Support</div>
-            </div>
+            <a href="#profile">My Profile</a>
+            <a href="${pageContext.request.contextPath}/creditcard">Cards</a>
         </div>
         
-        <!-- Main Content Area -->
         <div class="main-content">
-            <div class="dashboard-header">
-                <div class="dashboard-title">Welcome back, John Doe!</div>
-                <button class="logout-btn">Logout</button>
-            </div>
-            
-            <!-- Registration Information Card -->
-            <div class="dashboard-card">
-                <div class="card-title">Registration Information</div>
+            <div class="profile-card">
+                <div class="profile-header">
+                    <h3>Student Profile</h3>
+                    <button class="edit-btn" onclick="location.href='${pageContext.request.contextPath}/editProfile'">Edit Profile</button>
+                </div>
+                
                 <div class="info-grid">
                     <div class="info-item">
+                        <div class="info-label">Student ID</div>
+                        <div id="std-id">${student.stdid}</div>
+                    </div>
+                    <div class="info-item">
                         <div class="info-label">Full Name</div>
-                        <div class="info-value">John Doe</div>
+                        <div id="fullname">${student.fullname}</div>
                     </div>
                     <div class="info-item">
                         <div class="info-label">Email</div>
-                        <div class="info-value">john.doe@example.com</div>
+                        <div id="email">${student.email}</div>
                     </div>
                     <div class="info-item">
-                        <div class="info-label">Registration Date</div>
-                        <div class="info-value">January 15, 2023</div>
+                        <div class="info-label">Phone</div>
+                        <div id="phone">${student.phonenumber}</div>
                     </div>
                     <div class="info-item">
-                        <div class="info-label">User ID</div>
-                        <div class="info-value">USR-789456</div>
+                        <div class="info-label">Semester</div>
+                        <div id="semester">${student.semester}</div>
                     </div>
                     <div class="info-item">
-                        <div class="info-label">Account Status</div>
-                        <div class="info-value">Active</div>
+                        <div class="info-label">Field of Study</div>
+                        <div id="field">${student.fos}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Date of Birth</div>
+                        <div id="dob">${student.dob}</div>
                     </div>
                 </div>
             </div>
             
-            <!-- Payment Information Card -->
-            <div class="dashboard-card">
-                <div class="card-title">Payment Information</div>
-                <div class="info-grid">
-                    <div class="info-item">
-                        <div class="info-label">Payment Method</div>
-                        <div class="info-value">VISA **** 4242</div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-label">Billing Address</div>
-                        <div class="info-value">123 Main St, Apt 4B<br>New York, NY 10001</div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-label">Last Payment</div>
-                        <div class="info-value">$99.00 on March 1, 2023</div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-label">Next Billing Date</div>
-                        <div class="info-value">April 1, 2023</div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-label">Payment Status</div>
-                        <div class="info-value">
-                            <span class="payment-status status-paid">Paid</span>
-                        </div>
-                    </div>
-                </div>
-                <button class="add-payment-btn">Update Payment Method</button>
+            <div class="cards-section">
+                <h3>Payment Cards</h3>
+                <p>Manage your saved credit/debit cards for payments.</p>
+             <button class="cards-btn"  onclick="location.href='${pageContext.request.contextPath}/creditcard'">
+                 view card/ad/up/del
+               
+                </button>
             </div>
         </div>
     </div>

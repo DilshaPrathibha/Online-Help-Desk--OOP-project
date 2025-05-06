@@ -49,7 +49,7 @@
         }
 
         .announcement-title:before {
-            content: "🔔";
+            content: "ð";
             margin-right: 10px;
             font-size: 1.1rem;
         }
