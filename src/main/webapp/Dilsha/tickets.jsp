@@ -117,46 +117,11 @@
         text-align: center;
     }
 
-    .ticket-list {
-        max-width: 600px;
-        margin: 30px auto;
-        background: white;
-        padding: 25px;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .ticket-list ul {
-        list-style: none;
-        padding: 0;
-    }
-
-    .ticket-list li {
-        background: #f8f9fa;
-        padding: 12px;
-        border-left: 5px solid #007bff;
-        margin: 10px 0;
-        border-radius: 5px;
-        font-size: 15px;
-        transition: transform 0.3s ease, background 0.3s ease;
-    }
-
-    .ticket-list li:hover {
-        transform: translateX(5px);
-        background: #e9ecef;
-    }
-
-    .ticket-list li strong {
-        color: #2c3e50;
-    }
-
     @media (max-width: 768px) {
         .form-grid {
             grid-template-columns: 1fr;
         }
     }
-    
-    
 </style>
 
 <section class="ticket-form">
@@ -228,14 +193,6 @@
             </div>
         </div>
     </form>
-</section>
-
-<section class="ticket-list">
-    <h2>Recent Tickets</h2>
-    <ul id="ticketList">
-        <li><strong>Technical Issue:</strong> "Page not loading" (Open)</li>
-        <li><strong>Study Material Request:</strong> "Need SDLC notes" (Resolved)</li>
-    </ul>
 </section>
 
 <%@ include file="../partials/footer.jsp"%>
