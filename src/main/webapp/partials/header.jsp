@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,68 +17,120 @@
             box-sizing: border-box;
             font-family: 'Poppins', sans-serif;
         }
-        
+
         body {
-            background: #f5f5f5;
+            background-color: #f5f8fb;
             color: #333;
+            line-height: 1.6;
         }
-        
+
         header {
-            background: #0077cc;
-            padding: 15px 0;
+            background-color: #0077cc;
+            padding: 20px 0;
             text-align: center;
-            color: white;
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
         }
-        
+
+        header h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
         nav {
-            display: flex;
-            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: white;
+            padding: 8px;
+            margin-top: 5px;
+            text-align: right;
+            width: 95%;
+        }
+
+        .menu-toggle:hover {
+            opacity: 0.8;
         }
 
         nav ul {
             list-style: none;
             display: flex;
-            gap: 20px;
-            padding: 0;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            padding: 0 15px;
         }
-        
-        nav ul li {
-            display: inline-block;
-        }
-        
+
         nav ul li a {
             color: white;
             text-decoration: none;
             font-weight: 500;
-            padding: 10px 15px;
-            transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
-            border-radius: 5px;
+            padding: 10px 18px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
         }
 
-        nav ul li a:hover {
-            background: #0056b3;
+        /* Apply hover text color only to links that are not login or register */
+        nav ul li a:not(.btn):hover {
+            color: #4CAF50; /* green color */
         }
 
         .btn {
-            background: #005fa3;
-            padding: 10px 15px;
-            border-radius: 5px;
+            background-color: #004f91;
+            border: none;
             font-weight: 600;
         }
 
         .btn:hover {
-            background: #004a82;
+            background-color: #003f75;
+            color: #fff;
         }
-        
+
+        /* Responsive tweak */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            #nav-menu {
+                display: none;
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+
+            #nav-menu.active {
+                display: flex;
+            }
+
+            #nav-menu li {
+                width: 100%;
+                max-width: 280px;
+            }
+
+            #nav-menu li a {
+                width: 100%;
+                text-align: center;
+                display: block;
+                padding: 10px 0;
+            }
+        }
     </style>
 </head>
 <body>
     <header>
-        <h1>Online Help Desk</h1>
-        <br>
+        <a href="../Bupathi/index.jsp" style="text-decoration: none; color: white;">
+            <h1>Online Help Desk</h1>
+        </a>
         <nav>
-            <ul>
-                <li><a href="../Bupathi/index.jsp">Home</a></li>
+            <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+            <ul id="nav-menu">
                 <li><a href="../Shamal/forum.jsp">Forum</a></li>
                 <li><a href="../Dinali/materials.jsp">Study Materials</a></li>
                 <li><a href="videos.html">Videos</a></li>
@@ -89,7 +141,15 @@
                 <li><a href="../Dinali/counseling.jsp">Counseling Services</a></li>
                 <li><a href="../Bupathi/login.jsp" class="btn">Login</a></li>
                 <li><a href="../Bupathi/register.jsp" class="btn">Register</a></li>
-
             </ul>
         </nav>
     </header>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('nav-menu');
+            menu.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

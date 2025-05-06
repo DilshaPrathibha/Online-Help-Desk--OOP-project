@@ -4,7 +4,10 @@
     <div style="display: flex; flex-wrap: wrap; justify-content: space-between; max-width: 1200px; margin: auto; gap: 30px; text-align: left;">
 
         <div style="flex: 1; min-width: 200px;">
-            <h3 class="footer-heading">Online Help Desk</h3>
+            <a href="../Bupathi/index.jsp" class="footer-link" style="font-size: 22px; font-weight: 800; display: inline-block;">
+    			<h3 class="footer-heading";">Online Help Desk</h3>
+			</a>
+
             <p>Your trusted platform for academic support, counseling, and resolving issues quickly and effectively.</p>
         </div>
 
@@ -60,7 +63,7 @@
     }
 
     .footer-link:hover {
-        color: #fdd835;
+        color: #4CAF50;
     }
 
     .social-icon {
@@ -71,13 +74,13 @@
     }
 
     .social-icon:hover {
-        color: #fdd835;
+        color: #4CAF50;
     }
 
     .footer-heading {
         margin-bottom: 15px;
-        font-size: 18px;
-        font-weight: 600;
+        font-size: 22px;
+        font-weight: 800;
         position: relative;
         display: inline-block;
     }
@@ -87,7 +90,7 @@
         display: block;
         width: 40px;
         height: 3px;
-        background-color: #fdd835;
+        background-color: #4CAF50;
         margin-top: 5px;
         border-radius: 2px;
     }
