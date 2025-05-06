@@ -1,29 +1,41 @@
-
-
-
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
     <title>Student Login</title>
+    <%@ include file="../partials/header.jsp" %>
     <style>
+        /* Main Layout */
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f9;
             margin: 0;
             padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Header/Footer Space */
+        main {
+            flex: 1;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            padding: 20px;
         }
+        
+        /* Login Container */
         .login-container {
             background: white;
             padding: 30px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             width: 350px;
+            margin: 40px auto; /* Added margin for header/footer */
         }
+        
+        /* Rest of your existing styles */
         h2 {
             text-align: center;
             color: #333;
@@ -71,33 +83,32 @@
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <h2>Student Login</h2>
-        <form action="${pageContext.request.contextPath}/Login" method="post">
-            <div class="form-group">
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <button type="submit" class="login-btn">Login</button>
-            
-            <%-- Display error message if authentication fails --%>
-            <% if (request.getAttribute("errorMessage") != null) { %>
-                <div class="error-message">
-                    <%= request.getAttribute("errorMessage") %>
+    <main>
+        <div class="login-container">
+            <h2>Student Login</h2>
+            <form action="${pageContext.request.contextPath}/Login" method="post">
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" required>
                 </div>
-            <% } %>
-        </form>
-        
-        <div class="register-link">
-            Don't have an account? <a href="${pageContext.request.contextPath}/Bupathi/register.jsp">Register here</a>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="login-btn">Login</button>
+                
+                <% if (request.getAttribute("errorMessage") != null) { %>
+                    <div class="error-message">
+                        <%= request.getAttribute("errorMessage") %>
+                    </div>
+                <% } %>
+            </form>
+            
+            <div class="register-link">
+                Don't have an account? <a href="${pageContext.request.contextPath}/Bupathi/register.jsp">Register here</a>
+            </div>
         </div>
-    </div>
+    </main>
+    <%@ include file="../partials/footer.jsp" %>
 </body>
 </html>
-</head>
-<body>
-

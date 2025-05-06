@@ -4,8 +4,9 @@
 <html>
 
 <head>
-    <%@ include file="../partials/header.jsp" %>  
+    <%@ include file="../partials/header.jsp" %> 
     <link rel="stylesheet" href="styles.css">
+    
 </head>
 
 <body id="registerbody">
