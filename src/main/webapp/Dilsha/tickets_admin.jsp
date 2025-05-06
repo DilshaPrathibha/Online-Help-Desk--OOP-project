@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="../partials/header.jsp" %>
+
 <style>
     body {
         font-family: 'Arial', sans-serif;
@@ -69,6 +71,12 @@
 
 <div class="admin-container">
     <h2>Admin - Manage Support Tickets</h2>
+
+    <c:if test="${empty tickets}">
+    <p>No tickets found.</p>
+</c:if>
+
+<c:if test="${not empty tickets}">
     <table>
         <thead>
             <tr>
@@ -82,19 +90,21 @@
             </tr>
         </thead>
         <tbody>
-            <c:forEach var="ticket" items="${ticketList}">
+            <c:forEach var="ticket" items="${tickets}">
                 <tr>
-                    <td>${ticket.id}</td>
+                    <td>${ticket.ticketId}</td>
                     <td>${ticket.name}</td>
                     <td>${ticket.email}</td>
-                    <td>${ticket.issue}</td>
+                    <td>${ticket.issueType}</td>
                     <td>${ticket.description}</td>
                     <td>${ticket.status}</td>
                     <td class="action-buttons">
-                        <a href="EditTicketServlet?id=${ticket.id}" class="edit">Edit</a>
-                        <a href="DeleteTicketServlet?id=${ticket.id}" class="delete" onclick="return confirm('Are you sure you want to delete this ticket?');">Delete</a>
+                        <a href="${pageContext.request.contextPath}/admin/edit-ticket?id=${ticket.ticketId}"
+   class="edit text-blue-500 hover:underline">Edit</a>
+
+                        <a href="DeleteTicketServlet?id=${ticket.ticketId}" class="delete" onclick="return confirm('Are you sure you want to delete this ticket?');">Delete</a>
                         <form class="inline-form" action="UpdateTicketStatusServlet" method="post">
-                            <input type="hidden" name="id" value="${ticket.id}" />
+                            <input type="hidden" name="id" value="${ticket.ticketId}" />
                             <select name="status">
                                 <option value="Open" ${ticket.status eq 'Open' ? 'selected' : ''}>Open</option>
                                 <option value="In Progress" ${ticket.status eq 'In Progress' ? 'selected' : ''}>In Progress</option>
@@ -107,6 +117,8 @@
             </c:forEach>
         </tbody>
     </table>
+</c:if>
+     
 </div>
 
 <%@ include file="../partials/footer.jsp" %>

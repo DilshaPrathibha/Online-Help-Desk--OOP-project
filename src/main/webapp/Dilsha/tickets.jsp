@@ -170,7 +170,7 @@
 
 <section class="ticket-form">
     <h2>Submit a Support Ticket</h2>
-    <form id="ticketForm" action="TicketServlet" method="post" enctype="multipart/form-data">
+	<form id="ticketForm" action="${pageContext.request.contextPath}/ticket?action=create" method="post">
         <label for="name">Your Name:</label>
         <input type="text" id="name" name="name" required>
 
@@ -178,7 +178,7 @@
         <input type="email" id="email" name="email" required>
 
         <label for="issue">Issue Type:</label>
-        <select id="issue" name="issue">
+        <select id="issue" name="issueType">
             <option value="Technical Issue">Technical Issue</option>
             <option value="Account Problem">Account Problem</option>
             <option value="Study Material Request">Study Material Request</option>
@@ -189,13 +189,14 @@
         <textarea id="description" name="description" rows="4" required></textarea>
 
         <!-- New File Attachment Field -->
+        <!-- 
         <div class="file-upload-wrapper">
             <label class="custom-file-upload">
                 📎 Attach File
                 <input type="file" id="attachment" name="attachment" accept=".jpg, .png, .pdf, .docx" onchange="showFileName()">
             </label>
         </div>
-        <div class="file-name" id="file-name">No file selected</div>
+        <div class="file-name" id="file-name">No file selected</div>  -->
 
         <button type="submit">Submit Ticket</button>
     </form>
@@ -211,6 +212,7 @@
 
 <%@ include file="../partials/footer.jsp"%>
 
+ <!-- 
 <script>
     function showFileName() {
         const fileInput = document.getElementById('attachment');
@@ -221,5 +223,5 @@
         } else {
             fileNameDisplay.textContent = "No file selected";
         }
-    }
+    } -->
 </script>
