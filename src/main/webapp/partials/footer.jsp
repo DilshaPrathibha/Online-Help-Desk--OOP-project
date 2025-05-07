@@ -55,6 +55,7 @@
         display: inline-block;
         margin-bottom: 8px;
         font-size: 14px;
+        position: relative;
         transition: color 0.3s ease;
     }
 
@@ -62,8 +63,24 @@
         margin-right: 6px;
     }
 
+    .footer-link::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -2px;
+        left: 50%;
+        background-color: #66ccff;
+        transition: all 0.3s ease;
+        transform: translateX(-50%);
+    }
+
     .footer-link:hover {
-        color: #4CAF50;
+        color: #0a0c8a;
+    }
+
+    .footer-link:hover::after {
+        width: 100%;
     }
 
     .social-icon {
@@ -71,10 +88,27 @@
         font-size: 18px;
         transition: color 0.3s ease;
         text-decoration: none;
+        position: relative;
+    }
+
+    .social-icon::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -4px;
+        left: 50%;
+        background-color: #66ccff;
+        transition: all 0.3s ease;
+        transform: translateX(-50%);
     }
 
     .social-icon:hover {
-        color: #4CAF50;
+        color: #0a0c8a;
+    }
+
+    .social-icon:hover::after {
+        width: 100%;
     }
 
     .footer-heading {

@@ -7,7 +7,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Online Help Desk</title>
-    <link rel="icon" type="image/png" href="media/favicon.png">
+    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/partials/media/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
         
@@ -27,16 +28,17 @@
         header {
             background-color: #0077cc;
             padding: 20px 0;
-            text-align: center;
             color: #fff;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             position: relative;
+            padding-left: 40px;
         }
 
         header h1 {
             font-size: 2rem;
             font-weight: 600;
             letter-spacing: 1px;
+            text-align: left;
         }
 
         nav {
@@ -74,11 +76,29 @@
             padding: 10px 18px;
             border-radius: 6px;
             transition: all 0.3s ease;
+            position: relative;
         }
 
-        /* Apply hover text color only to links that are not login or register */
+        /* Underline hover effect for non-btns */
+        nav ul li a:not(.btn)::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 5px;
+            left: 50%;
+            background-color: #66ccff;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        nav ul li a:not(.btn):hover::after {
+            width: 100%;
+        }
+
         nav ul li a:not(.btn):hover {
-            color: #4CAF50; /* green color */
+            background-color: transparent;
+            color: #0a0c8a;
         }
 
         .btn {
@@ -125,9 +145,11 @@
 </head>
 <body>
     <header>
-        <a href="../Bupathi/index.jsp" style="text-decoration: none; color: white;">
-            <h1>Online Help Desk</h1>
-        </a>
+        <a href="../Bupathi/index.jsp" style="text-decoration: none; color: white; display: flex; align-items: center; gap: 10px;">
+    		<img src="${pageContext.request.contextPath}/partials/media/logo.png" alt="Logo" style="height: 36px;">
+    		<h1>Online Help Desk</h1>
+		</a>
+
         <nav>
             <div class="menu-toggle" onclick="toggleMenu()">☰</div>
             <ul id="nav-menu">
