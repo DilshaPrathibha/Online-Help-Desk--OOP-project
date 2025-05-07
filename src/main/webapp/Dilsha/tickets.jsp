@@ -3,27 +3,30 @@
 
 <style>
     body {
-        font-family: 'Arial', sans-serif;
-        background-color: #f4f7f9;
+        font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+        background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
         margin: 0;
         padding: 0;
-        color: #333;
-    }
-
-    h2 {
         color: #2c3e50;
-        text-align: center;
-        font-weight: 600;
-        letter-spacing: 1px;
+        line-height: 1.6;
     }
 
     .ticket-form {
         max-width: 900px;
-        margin: 20px auto;
+        margin: 30px auto;
         background: white;
-        padding: 25px;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        padding: 35px;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+
+    h2 {
+        color: #2c3e50;
+        text-align: center;
+        font-weight: 700;
+        letter-spacing: 1px;
+        margin-bottom: 25px;
     }
 
     .form-grid {
@@ -37,8 +40,8 @@
     }
 
     label {
-        font-weight: bold;
-        margin-top: 12px;
+        font-weight: 600;
+        margin-bottom: 8px;
         color: #2c3e50;
         display: block;
     }
@@ -46,34 +49,34 @@
     input, select, textarea {
         width: 100%;
         padding: 12px;
-        margin-top: 5px;
         border: 2px solid #ccc;
         border-radius: 6px;
         font-size: 14px;
-        transition: border 0.3s;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     input:focus, select:focus, textarea:focus {
         border-color: #007bff;
         outline: none;
+        box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
     }
 
     button {
         width: 100%;
         padding: 12px;
         margin-top: 15px;
-        background: #007bff;
+        background: linear-gradient(to right, #007bff, #0056b3);
         color: white;
         border: none;
         border-radius: 6px;
         font-size: 16px;
         cursor: pointer;
-        transition: background 0.3s ease;
         font-weight: bold;
     }
 
     button:hover {
-        background: #0056b3;
+        box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
     }
 
     .file-upload-wrapper {
@@ -103,6 +106,7 @@
         width: 100%;
         border: 2px solid #b0bec5;
         text-align: center;
+        transition: all 0.3s ease;
     }
 
     .custom-file-upload:hover {
@@ -115,6 +119,13 @@
         font-size: 14px;
         color: #555;
         text-align: center;
+    }
+
+    .char-count {
+        text-align: right;
+        color: #6c757d;
+        font-size: 12px;
+        margin-top: 5px;
     }
 
     @media (max-width: 768px) {
@@ -198,9 +209,60 @@
 <%@ include file="../partials/footer.jsp"%>
 
 <script>
-    function showFileName() {
-        const fileInput = document.getElementById('attachment');
-        const fileNameDisplay = document.getElementById('file-name');
-        fileNameDisplay.textContent = fileInput.files.length > 0 ? fileInput.files[0].name : "No file selected";
-    }
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('ticketForm');
+        const description = document.getElementById('description');
+        const attachment = document.getElementById('attachment');
+        const fileName = document.getElementById('file-name');
+        const charCount = document.querySelector('.char-count');
+
+        // Character count for description
+        description.addEventListener('input', function() {
+            const remaining = 500 - description.value.length;
+            charCount.textContent = `${description.value.length}/500 characters`;
+            
+            if (remaining < 50) {
+                charCount.style.color = 'red';
+            } else {
+                charCount.style.color = '#6c757d';
+            }
+        });
+
+        // File upload preview
+        attachment.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                fileName.textContent = file.name;
+                fileName.style.color = '#007bff';
+            } else {
+                fileName.textContent = 'No file selected';
+                fileName.style.color = '#6c757d';
+            }
+        });
+
+        // Form validation
+        form.addEventListener('submit', function(e) {
+            let isValid = true;
+            const requiredFields = form.querySelectorAll('[required]');
+
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    field.style.borderColor = 'red';
+                    isValid = false;
+                } else {
+                    field.style.borderColor = '#ccc';
+                }
+            });
+
+            if (description.value.length > 500) {
+                description.style.borderColor = 'red';
+                isValid = false;
+            }
+
+            if (!isValid) {
+                e.preventDefault();
+                alert('Please fill out all required fields correctly.');
+            }
+        });
+    });
 </script>
