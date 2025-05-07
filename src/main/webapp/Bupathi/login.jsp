@@ -85,29 +85,36 @@
 <body>
     <main>
         <div class="login-container">
-            <h2>Student Login</h2>
-            <form action="${pageContext.request.contextPath}/Login" method="post">
-                <div class="form-group">
-                    <label for="username">Username:</label>
-                    <input type="text" id="username" name="username" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">Password:</label>
-                    <input type="password" id="password" name="password" required>
-                </div>
-                <button type="submit" class="login-btn">Login</button>
-                
-                <% if (request.getAttribute("errorMessage") != null) { %>
-                    <div class="error-message">
-                        <%= request.getAttribute("errorMessage") %>
-                    </div>
-                <% } %>
-            </form>
-            
-            <div class="register-link">
-                Don't have an account? <a href="${pageContext.request.contextPath}/Bupathi/register.jsp">Register here</a>
-            </div>
+    <h2>Login</h2>
+    <form action="${pageContext.request.contextPath}/Login" method="post">
+        <div class="form-group">
+            <label for="userType">Login As:</label>
+            <select id="userType" name="userType" class="form-control" required>
+                <option value="student">Student</option>
+                <option value="admin">Administrator</option>
+            </select>
         </div>
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <button type="submit" class="login-btn">Login</button>
+        
+        <% if (request.getAttribute("errorMessage") != null) { %>
+            <div class="error-message">
+                <%= request.getAttribute("errorMessage") %>
+            </div>
+        <% } %>
+    </form>
+    
+    <div class="register-link">
+        Student registration? <a href="${pageContext.request.contextPath}/Bupathi/register.jsp">Register here</a>
+    </div>
+</div>
     </main>
     <%@ include file="../partials/footer.jsp" %>
 </body>

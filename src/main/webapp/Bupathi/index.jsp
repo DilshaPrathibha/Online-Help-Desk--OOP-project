@@ -49,7 +49,7 @@
         }
 
         .announcement-title:before {
-            content: "ð";
+            content: "🔔";
             margin-right: 10px;
             font-size: 1.1rem;
         }
@@ -87,6 +87,25 @@
     min-height: 100vh;
     margin: 0;
 ">
+
+	    <!-- Success Message (optional, disappears) on index.jsp -->
+    <%
+        String success = request.getParameter("success");
+        if ("true".equals(success)) {
+    %>
+        <div id="successMsg" class="success-message">Ticket submitted successfully!</div>
+        <script>
+            setTimeout(() => {
+                const msg = document.getElementById("successMsg");
+                if (msg) {
+                    msg.style.opacity = "0";
+                    setTimeout(() => msg.style.display = "none", 500); // smooth fade out
+                }
+            }, 1500); // 4 seconds to disappear 
+        </script>
+    <%
+        }
+    %>
 
     <!-- Overlay Welcome Box -->
     <div class="overlay-box">
