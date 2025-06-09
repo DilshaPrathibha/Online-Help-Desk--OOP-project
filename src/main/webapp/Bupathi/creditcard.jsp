@@ -1,4 +1,4 @@
-
+<%@ include file="../partials/header.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
@@ -20,93 +20,20 @@
             --text: #333;
             --text-light: #7f8c8d;
         }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
         body {
             background-color: #f5f7fa;
             color: var(--text);
             line-height: 1.6;
         }
-        
-        /* ===== LAYOUT ===== */
-        .app-container {
-            display: grid;
-            grid-template-areas:
-                "header header"
-                "sidebar main";
-            grid-template-columns: 220px 1fr;
-            grid-template-rows: 60px 1fr;
-            min-height: 100vh;
+
+        .topic2{
+        	color: #01274e;
+	        text-align: center;
+	        font-size: 2rem;
+	        font-weight: 700;
+	        letter-spacing: 1px;
+	        margin-bottom: 25px;
         }
-        
-        /* ===== HEADER ===== */
-        .app-header {
-            grid-area: header;
-            background: var(--primary);
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 25px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        .logout-btn {
-            background: var(--danger);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.2s ease;
-        }
-        
-        .logout-btn:hover {
-            background: #c0392b;
-            transform: translateY(-1px);
-        }
-        
-        /* ===== SIDEBAR ===== */
-        .app-sidebar {
-            grid-area: sidebar;
-            background: var(--secondary);
-            padding: 20px 0;
-        }
-        
-        .nav-menu {
-            list-style: none;
-        }
-        
-        .nav-link {
-            color: white;
-            text-decoration: none;
-            display: block;
-            padding: 12px 25px;
-            transition: all 0.2s ease;
-            font-weight: 500;
-        }
-        
-        .nav-link:hover, .nav-link.active {
-            background: rgba(255,255,255,0.1);
-        }
-        
-        /* ===== MAIN CONTENT ===== */
-        .app-main {
-            grid-area: main;
-            padding: 30px;
-            background: #f5f7fa;
-        }
-        
         .content-container {
             max-width: 1000px;
             margin: 0 auto;
@@ -248,18 +175,7 @@
         }
         
         /* ===== RESPONSIVE ADJUSTMENTS ===== */
-        @media (max-width: 768px) {
-            .app-container {
-                grid-template-areas:
-                    "header"
-                    "main";
-                grid-template-columns: 1fr;
-            }
-            
-            .app-sidebar {
-                display: none; /* Consider mobile menu alternative */
-            }
-            
+        @media (max-width: 768px) {      
             .card-details {
                 grid-template-columns: 1fr;
             }
@@ -267,28 +183,20 @@
     </style>
 </head>
 <body>
-    <div class="app-container">
-        <!-- [Keep header section exactly the same] -->
-        <header class="app-header">
-            <h2>Student Help Desk</h2>
-            <form action="${pageContext.request.contextPath}/logout" method="post">
-                <button type="submit" class="logout-btn">Logout</button>
-            </form>
-        </header>
+    <div class="header">
+        <h2>Student Dashboard</h2>
+        <form action="${pageContext.request.contextPath}/logout" method="post">
+            <button type="submit" class="logout-btn">Logout</button>
+        </form>
+    </div>
         
-        <!-- [Keep sidebar navigation exactly the same] -->
-        <nav class="app-sidebar">
-            <ul class="nav-menu">
-                <li><a href="${pageContext.request.contextPath}/Bupathi/dummydash.jsp" class="nav-link">My Profile</a></li>
-                <li><a href="${pageContext.request.contextPath}/creditcard" class="nav-link active">Payment Cards</a></li>
-            </ul>
-        </nav>
-        
-        <!-- Main Content Area - Only modified section -->
-        <main class="app-main">
+    <div class="container">
+        <%@ include file="../partials/sideBar.jsp" %>
+
+        <div class="main-content">
             <div class="content-container">
                 <div class="card-management-header">
-                    <h2>Your Payment Cards</h2>
+                    <h1 class="topic2">Your Payment Cards</h1>
                     <a href="${pageContext.request.contextPath}/Bupathi/addcard.jsp" class="btn btn-primary">
                         + Add New Card
                     </a>
@@ -347,7 +255,7 @@
                     </c:choose>
                 </div>
             </div>
-        </main>
+        </div>
     </div>
 </body>
 </html>

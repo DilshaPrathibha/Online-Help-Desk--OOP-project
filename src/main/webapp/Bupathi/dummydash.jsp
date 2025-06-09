@@ -1,9 +1,11 @@
+<%@ include file="../partials/header.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <title>Student Dashboard</title>
     <style>
         body {
@@ -14,7 +16,7 @@
             color: #333;
         }
         .header {
-            background-color: #343a40;
+            background-color: #1d262f;
             color: white;
             padding: 15px 25px;
             display: flex;
@@ -37,7 +39,7 @@
         }
         .sidebar {
             width: 220px;
-            background-color: #495057;
+            background-color: #2c3e50;
             padding: 20px 0;
         }
         .sidebar a {
@@ -67,10 +69,7 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
-        }
-        .profile-header h3 {
-            margin: 0;
-            color: #2c3e50;
+            color: #01274e;
         }
         .edit-btn {
             background-color: #17a2b8;
@@ -131,16 +130,27 @@
     
     <div class="container">
         <div class="sidebar">
-            <a href="#profile">My Profile</a>
-            <a href="${pageContext.request.contextPath}/creditcard">Cards</a>
-        </div>
+			<a href="${pageContext.request.contextPath}/student/dashboard"><i class="fas fa-user"></i> My Profile</a> <a
+				href="${pageContext.request.contextPath}/creditcard"><i
+				class="fas fa-credit-card"></i> Cards</a> <a
+				href="${pageContext.request.contextPath}/TransactionView"><i
+				class="fas fa-receipt"></i> Transactions</a> <a
+				href="${pageContext.request.contextPath}/userAppointments"><i
+				class="fas fa-calendar-check"></i> My Appointments</a> <a
+				href="${pageContext.request.contextPath}/student/chat"><i
+				class="fas fa-comments"></i> Chat Bot</a> <a
+				href="${pageContext.request.contextPath}/student/ticket"><i
+				class="fas fa-ticket-alt"></i> Submit a Ticket</a> <a
+				href="${pageContext.request.contextPath}/student/tickets"><i
+				class="fas fa-folder-open"></i> My Tickets</a>
+		</div>
         
         <div class="main-content">
             <div class="profile-card">
                 <div class="profile-header">
-                    <h3>Student Profile</h3>
+                    <h2>Student Profile</h2>
                     <button class="edit-btn" onclick="location.href='${pageContext.request.contextPath}/editProfile'">Edit Profile</button>
-                </div>
+                </div><br>
                 
                 <div class="info-grid">
                     <div class="info-item">
@@ -178,7 +188,7 @@
                 <h3>Payment Cards</h3>
                 <p>Manage your saved credit/debit cards for payments.</p>
              <button class="cards-btn"  onclick="location.href='${pageContext.request.contextPath}/creditcard'">
-                 view card/ad/up/del
+                 Manage Cards
                
                 </button>
             </div>

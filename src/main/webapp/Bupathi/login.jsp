@@ -1,9 +1,10 @@
+<%@ include file="/partials/header.jsp" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
     <title>Student Login</title>
-    <%@ include file="../partials/header.jsp" %>
+    
     <style>
         /* Main Layout */
         body {
@@ -51,7 +52,8 @@
             color: #555;
         }
         input[type="text"],
-        input[type="password"] {
+        input[type="password"],
+        select {
             width: 100%;
             padding: 10px;
             border: 1px solid #ddd;

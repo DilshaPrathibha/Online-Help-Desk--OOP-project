@@ -14,9 +14,11 @@ public class Ticket {
     private String description;
     private String attachment;
     private String status;
+    private String reply;
     private Timestamp createdAt;
 
-    // Getters
+
+	
     public int getTicketId() {
         return ticketId;
     }
@@ -61,11 +63,16 @@ public class Ticket {
         return status;
     }
 
+    public String getReply() {
+  		return reply;
+  	}
+
     public Timestamp getCreatedAt() {
         return createdAt;
     }
 
-    // Setters
+    
+    
     public void setTicketId(int ticketId) {
         this.ticketId = ticketId;
     }
@@ -109,6 +116,10 @@ public class Ticket {
     public void setStatus(String status) {
         this.status = status;
     }
+
+	public void setReply(String reply) {
+		this.reply = reply;
+	}
 
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;

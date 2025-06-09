@@ -20,6 +20,18 @@ body {
     align-items: center;
     min-height: 100vh;
 }
+/* Add this to your existing CSS */
+.register-form {
+    padding-top: 100px; /* Adjust this value based on your header height */
+    min-height: calc(100vh - 100px); /* Ensures form is visible even on short screens */
+}
+
+/* For mobile responsiveness */
+@media (max-width: 768px) {
+    .register-form {
+        padding-top: 80px;
+    }
+}
 
 /* Header */
 header {

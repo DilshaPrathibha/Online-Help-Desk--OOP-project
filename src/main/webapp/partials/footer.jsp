@@ -4,8 +4,8 @@
     <div style="display: flex; flex-wrap: wrap; justify-content: space-between; max-width: 1200px; margin: auto; gap: 30px; text-align: left;">
 
         <div style="flex: 1; min-width: 200px;">
-            <a href="../Bupathi/index.jsp" class="footer-link" style="font-size: 22px; font-weight: 800; display: inline-block;">
-    			<h3 class="footer-heading";">Online Help Desk</h3>
+            <a href="../Bupathi/index.jsp" class="footer-link" style="color: white; font-size: 22px; font-weight: 800; display: inline-block;">
+    			<h3 class="footer-heading";">HelpAura</h3>
 			</a>
 
             <p>Your trusted platform for academic support, counseling, and resolving issues quickly and effectively.</p>
@@ -14,21 +14,21 @@
         <div style="flex: 1; min-width: 200px;">
             <h3 class="footer-heading">Explore</h3>
             <ul style="list-style: none; padding: 0;">
-                <li><a href="${pageContext.request.contextPath}/index.jsp" class="footer-link"><i class="fas fa-home"></i> Home</a></li>
-                <li><a href="${pageContext.request.contextPath}/forum.jsp" class="footer-link"><i class="fas fa-comments"></i> Forum</a></li>
-                <li><a href="${pageContext.request.contextPath}/faq.jsp" class="footer-link"><i class="fas fa-question-circle"></i> FAQ</a></li>
-                <li><a href="${pageContext.request.contextPath}/contact.jsp" class="footer-link"><i class="fas fa-envelope"></i> Contact Us</a></li>
-                <li><a href="${pageContext.request.contextPath}/login.jsp" class="footer-link"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                <li><a href="${pageContext.request.contextPath}/Bupathi/index.jsp" class="footer-link"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="${pageContext.request.contextPath}/Shamal/forum.jsp" class="footer-link"><i class="fas fa-comments"></i> Forum</a></li>
+                <li><a href="${pageContext.request.contextPath}/Shamal/faq.jsp" class="footer-link"><i class="fas fa-question-circle"></i> FAQ</a></li>
+                <li><a href="${pageContext.request.contextPath}/Dinali/contact.jsp" class="footer-link"><i class="fas fa-envelope"></i> Contact Us</a></li>
+                <li><a href="${pageContext.request.contextPath}/Bupathi/login.jsp" class="footer-link"><i class="fas fa-sign-in-alt"></i> Login</a></li>
             </ul>
         </div>
 
         <div style="flex: 1; min-width: 200px;">
             <h3 class="footer-heading">Student Services</h3>
             <ul style="list-style: none; padding: 0;">
-                <li><a href="${pageContext.request.contextPath}/counseling.jsp" class="footer-link"><i class="fas fa-user-friends"></i> Counseling Services</a></li>
-                <li><a href="${pageContext.request.contextPath}/materials.jsp" class="footer-link"><i class="fas fa-book-open"></i> Study Materials</a></li>
-                <li><a href="${pageContext.request.contextPath}/livechat.jsp" class="footer-link"><i class="fas fa-comments-dollar"></i> Live Chat</a></li>
-                <li><a href="${pageContext.request.contextPath}/tickets.jsp" class="footer-link"><i class="fas fa-ticket-alt"></i> Ticketing</a></li>
+                <li><a href="${pageContext.request.contextPath}/Dinali/counseling.jsp" class="footer-link"><i class="fas fa-user-friends"></i> Counseling Services</a></li>
+                <li><a href="${pageContext.request.contextPath}/Bupathi/studymaterials.jsp" class="footer-link"><i class="fas fa-book-open"></i> Study Materials</a></li>
+                <li><a href="${pageContext.request.contextPath}/student/chat" class="footer-link"><i class="fas fa-comments-dollar"></i> Chat Bot</a></li>
+                <li><a href="${pageContext.request.contextPath}/student/ticket" class="footer-link"><i class="fas fa-ticket-alt"></i> Ticketing</a></li>
             </ul>
         </div>
 
@@ -44,13 +44,13 @@
     </div>
 
     <div style="text-align: center; margin-top: 30px; font-size: 14px;">
-        <p>&copy; 2025 Online Help Desk | All rights reserved.</p>
+        <p>&copy; 2025 HelpAura | All rights reserved.</p>
     </div>
 </footer>
 
 <style>
     .footer-link {
-        color: white;
+        color: #66ccff;
         text-decoration: none;
         display: inline-block;
         margin-bottom: 8px;
@@ -76,7 +76,7 @@
     }
 
     .footer-link:hover {
-        color: #0a0c8a;
+        color: white;
     }
 
     .footer-link:hover::after {
@@ -84,7 +84,7 @@
     }
 
     .social-icon {
-        color: white;
+        color: #66ccff;
         font-size: 18px;
         transition: color 0.3s ease;
         text-decoration: none;
@@ -104,7 +104,7 @@
     }
 
     .social-icon:hover {
-        color: #0a0c8a;
+        color: white;
     }
 
     .social-icon:hover::after {

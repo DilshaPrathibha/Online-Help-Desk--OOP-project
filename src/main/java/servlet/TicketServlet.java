@@ -2,6 +2,7 @@ package servlet;
 
 import model.Ticket;
 import services.TicketService;
+import model.Student;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -9,19 +10,19 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+// enable file uploading and set limits
 @MultipartConfig(
-    fileSizeThreshold = 1024 * 1024 * 1,   // 1MB
-    maxFileSize = 1024 * 1024 * 10,        // 10MB
-    maxRequestSize = 1024 * 1024 * 15      // 15MB
+    fileSizeThreshold = 1024 * 1024 * 1,   
+    maxFileSize = 1024 * 1024 * 10,        
+    maxRequestSize = 1024 * 1024 * 15      
 )
-@WebServlet("/ticket")
+@WebServlet("/student/ticket")
 public class TicketServlet extends HttpServlet {
     private TicketService ticketService = new TicketService();
 
@@ -39,17 +40,29 @@ public class TicketServlet extends HttpServlet {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendRedirect("error.jsp");
+            response.sendRedirect(request.getContextPath() + "/Dilsha/error.jsp");
         }
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        String redirectPath = request.getContextPath() + "/Bupathi/login.jsp";
+
+        if (session == null || (session.getAttribute("admin") == null && session.getAttribute("student") == null)) {
+            if (session != null) {
+                session.setAttribute("redirectUrl", request.getRequestURI());
+                session.setAttribute("error", "Please login to view this page");
+            }
+            response.sendRedirect(redirectPath);
+            return;
+        }
+
         try {
             String action = request.getParameter("action");
 
             if (action == null || action.isEmpty()) {
-                response.sendRedirect("Dilsha/tickets.jsp");
+                listTickets(request, response);
                 return;
             }
 
@@ -57,10 +70,12 @@ public class TicketServlet extends HttpServlet {
                 listTickets(request, response);
             } else if ("get".equals(action)) {
                 getTicketById(request, response);
+            } else if ("student".equals(action)) {
+                listStudentTickets(request, response);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendRedirect("error.jsp");
+            response.sendRedirect(request.getContextPath() + "/Dilsha/error.jsp");
         }
     }
 
@@ -75,17 +90,17 @@ public class TicketServlet extends HttpServlet {
             String issueType = request.getParameter("issueType");
             String description = request.getParameter("description");
             String status = "Open";
-            Timestamp createdAt = new Timestamp(System.currentTimeMillis());
+            Timestamp createdAt = new Timestamp(System.currentTimeMillis()); 
 
-            // Handle file upload
+            // attachment
             Part filePart = request.getPart("attachment");
             String fileName = null;
             if (filePart != null && filePart.getSize() > 0) {
                 fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
                 String uploadPath = getServletContext().getRealPath("") + File.separator + "uploads";
 
-                File uploadDir = new File(uploadPath);
-                if (!uploadDir.exists()) uploadDir.mkdir();
+                File uploadDir = new File(uploadPath); // checks uploads/  directory exists
+                if (!uploadDir.exists()) uploadDir.mkdir(); // if not, make directory
 
                 filePart.write(uploadPath + File.separator + fileName);
             }
@@ -99,21 +114,21 @@ public class TicketServlet extends HttpServlet {
             ticket.setPhone(phone);
             ticket.setIssueType(issueType);
             ticket.setDescription(description);
-            ticket.setAttachment(fileName);  // Store filename only
+            ticket.setAttachment(fileName);
             ticket.setStatus(status);
             ticket.setCreatedAt(createdAt);
 
             boolean isCreated = ticketService.createTicket(ticket);
 
             if (isCreated) {
-                response.sendRedirect(request.getContextPath() + "/Bupathi/index.jsp?success=" + isCreated); // update here to show submitted msg
+                response.sendRedirect(request.getContextPath() + "/student/tickets?success=true");
             } else {
                 response.sendRedirect(request.getContextPath() + "/Dilsha/tickets.jsp?success=" + isCreated);
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendRedirect("error.jsp");
+            response.sendRedirect(request.getContextPath() + "/Dilsha/error.jsp");
         }
     }
 
@@ -123,10 +138,10 @@ public class TicketServlet extends HttpServlet {
             String status = request.getParameter("status");
 
             boolean isUpdated = ticketService.updateTicketStatus(ticketId, status);
-            response.sendRedirect("Dilsha/tickets.jsp?updated=" + isUpdated);
+            response.sendRedirect(request.getContextPath() + "/Dilsha/tickets.jsp?updated=" + isUpdated);
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendRedirect("error.jsp");
+            response.sendRedirect(request.getContextPath() + "/Dilsha/error.jsp");
         }
     }
 
@@ -135,10 +150,10 @@ public class TicketServlet extends HttpServlet {
             int ticketId = Integer.parseInt(request.getParameter("ticketId"));
 
             boolean isDeleted = ticketService.deleteTicket(ticketId);
-            response.sendRedirect("Dilsha/tickets.jsp?deleted=" + isDeleted);
+            response.sendRedirect(request.getContextPath() + "/Dilsha/tickets.jsp?deleted=" + isDeleted);
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendRedirect("error.jsp");
+            response.sendRedirect(request.getContextPath() + "/Dilsha/error.jsp");
         }
     }
 
@@ -146,10 +161,10 @@ public class TicketServlet extends HttpServlet {
         try {
             List<Ticket> tickets = ticketService.getAllTickets();
             request.setAttribute("tickets", tickets);
-            request.getRequestDispatcher("Dilsha/tickets.jsp").forward(request, response);
+            request.getRequestDispatcher("/Dilsha/tickets.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendRedirect("error.jsp");
+            response.sendRedirect(request.getContextPath() + "/Dilsha/error.jsp");
         }
     }
 
@@ -165,10 +180,22 @@ public class TicketServlet extends HttpServlet {
             } else {
                 request.setAttribute("ticketList", Collections.emptyList());
             }
-            request.getRequestDispatcher("Dilsha/tickets_admin.jsp").forward(request, response);
+            request.getRequestDispatcher("/Dilsha/tickets.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendRedirect("error.jsp");
+            response.sendRedirect(request.getContextPath() + "/Dilsha/error.jsp");
+        }
+    }
+
+    private void listStudentTickets(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            String studentId = request.getParameter("studentId");
+            List<Ticket> studentTickets = ticketService.getTicketsByStudentId(studentId);
+            request.setAttribute("studentTickets", studentTickets);
+            request.getRequestDispatcher("/Dilsha/tickets.jsp").forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendRedirect(request.getContextPath() + "/Dilsha/error.jsp");
         }
     }
 }

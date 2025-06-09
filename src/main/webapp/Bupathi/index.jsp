@@ -49,10 +49,10 @@
         }
 
         .announcement-title:before {
-            content: "🔔";
-            margin-right: 10px;
-            font-size: 1.1rem;
-        }
+		    content: "\1F514"; /* Unicode for bell emoji */
+		    margin-right: 10px;
+		    font-size: 1.1rem;
+		}
 
         .announcement-box p {
             margin-bottom: 15px;
@@ -88,25 +88,6 @@
     margin: 0;
 ">
 
-	    <!-- Success Message (optional, disappears) on index.jsp -->
-    <%
-        String success = request.getParameter("success");
-        if ("true".equals(success)) {
-    %>
-        <div id="successMsg" class="success-message">Ticket submitted successfully!</div>
-        <script>
-            setTimeout(() => {
-                const msg = document.getElementById("successMsg");
-                if (msg) {
-                    msg.style.opacity = "0";
-                    setTimeout(() => msg.style.display = "none", 500); // smooth fade out
-                }
-            }, 1500); // 4 seconds to disappear 
-        </script>
-    <%
-        }
-    %>
-
     <!-- Overlay Welcome Box -->
     <div class="overlay-box">
         <h2>Welcome to Your Semester Help Desk</h2>
@@ -120,7 +101,16 @@
         <a href="announcements.jsp">View All Announcements</a>
     </div>
 
-    <%@ include file="../partials/footer.jsp" %>
+<% if ("success".equals(request.getParameter("msg"))) { %>
+    <script>
+        window.onload = function() {
+            alert("Registration successful! you can login now");
+        };
+    </script>
+<% } %>
+
+    
 
 </body>
 </html>
+<%@ include file="../partials/footer.jsp" %>

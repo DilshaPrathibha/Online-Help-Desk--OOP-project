@@ -1,5 +1,3 @@
-//session checks are commented
-
 package servlet;
 
 import java.io.IOException;
@@ -28,51 +26,52 @@ public class AdminTicketServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Session check for admin login
         HttpSession session = request.getSession(false);
-        
-        // Temporary check for testing (Simulating an admin session)
+        String redirectPath = request.getContextPath() + "/Bupathi/login.jsp";
+
+        // Check whether admin session exists
         if (session == null || session.getAttribute("admin") == null) {
-            // For testing only — simulate admin session
-            session = request.getSession(true);
-            session.setAttribute("admin", true);
-            session.setAttribute("firstName", "Test");
-            session.setAttribute("lastName", "Admin");
-            session.setAttribute("picture", "default.jpg");
-            // No redirect during testing
+            if (session != null) {
+                session.setAttribute("redirectUrl", request.getRequestURI());
+                session.setAttribute("error", "Please login as admin to view this page");
+            }
+            response.sendRedirect(redirectPath);
+            return;
         }
 
-        // If this were in production, this block would redirect non-admins to login
-        // if (session == null || session.getAttribute("admin") == null) {
-        //     response.sendRedirect(request.getContextPath() + "/login.jsp");
-        //     return;
-        // }
-
-        // Set session attributes for admin
-        request.setAttribute("firstName", session.getAttribute("firstName"));
-        request.setAttribute("lastName", session.getAttribute("lastName"));
-        request.setAttribute("picture", session.getAttribute("picture"));
-
-        // Handle the action parameter to determine the page behavior
         String action = request.getParameter("action");
 
         if (action == null || action.equals("list")) {
-            // Fetch all tickets for the admin to manage
-            List<Ticket> tickets = ticketService.getAllTickets();
+            String search = request.getParameter("search");
+            String status = request.getParameter("status");
+            String faculty = request.getParameter("faculty");
+            String issueType = request.getParameter("issueType"); 
+
+            List<Ticket> tickets;
+
+            if ((search != null && !search.isEmpty()) || 
+                (status != null && !status.isEmpty()) || 
+                (faculty != null && !faculty.isEmpty()) || 
+                (issueType != null && !issueType.isEmpty())) {
+                
+                tickets = ticketService.searchTickets(
+                        search != null ? search : "",
+                        faculty != null ? faculty : "",
+                        status != null ? status : "",
+                        issueType != null ? issueType : ""
+                );
+            } else {
+                // Default- get all
+                tickets = ticketService.getAllTickets();
+            }
+
             request.setAttribute("tickets", tickets);
             request.getRequestDispatcher("/Dilsha/tickets_admin.jsp").forward(request, response);
-        } else if (action.equals("view")) {
-            // Fetch and display a specific ticket's details
-            int id = Integer.parseInt(request.getParameter("id"));
-            Ticket ticket = ticketService.getTicket(id);
-            request.setAttribute("ticket", ticket);
-            request.getRequestDispatcher("/Dilsha/ticket_view.jsp").forward(request, response);
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Reserved for future post actions (e.g., ticket editing/deletion)
         doGet(request, response);
     }
 }

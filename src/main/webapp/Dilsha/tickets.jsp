@@ -1,16 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="../partials/header.jsp"%>
+
+<%@ include file="../partials/header.jsp" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"> <!-- for inline css -->
 
 <style>
-    body {
+     body {
         font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
         background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
         margin: 0;
         padding: 0;
         color: #2c3e50;
         line-height: 1.6;
-    }
-
+     } 
     .ticket-form {
         max-width: 900px;
         margin: 30px auto;
@@ -20,9 +23,8 @@
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     }
 
-
-    h2 {
-        color: #2c3e50;
+    .topic1 {
+        color: #01274e;
         text-align: center;
         font-weight: 700;
         letter-spacing: 1px;
@@ -62,7 +64,7 @@
         box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
     }
 
-    button {
+    .tBtn {
         width: 100%;
         padding: 12px;
         margin-top: 15px;
@@ -75,7 +77,7 @@
         font-weight: bold;
     }
 
-    button:hover {
+    .tBtn:hover {
         box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
     }
 
@@ -133,80 +135,149 @@
             grid-template-columns: 1fr;
         }
     }
+    
 </style>
 
-<section class="ticket-form">
-    <h2>Submit a Support Ticket</h2>
-    <form id="ticketForm" action="${pageContext.request.contextPath}/ticket?action=create" method="post" enctype="multipart/form-data">
-        <div class="form-grid">
-            <div>
-                <label for="name">Your Name:</label>
-                <input type="text" id="name" name="name" required>
-            </div>
+    
+    <%
+    model.Student student = (model.Student) session.getAttribute("student");
+	%>
+    <div class="header">
+        <h2>Student Dashboard</h2>
+        <form action="${pageContext.request.contextPath}/logout" method="post">
+            <button type="submit" class="logout-btn">Logout</button>
+        </form>
+    </div>	
+<div class="container">
+    <%@ include file="../partials/sideBar.jsp" %>
 
-            <div>
-                <label for="studentId">Student ID Number:</label>
-                <input type="text" id="studentId" name="studentId" required>
-            </div>
+    <div class="main-content">
+	<section class="ticket-form">
+	    <h2 class="topic1">Submit a Support Ticket</h2>
 
-            <div>
-                <label for="faculty">Faculty:</label>
-                <select id="faculty" name="faculty" required>
-                    <option value="Computing">Computing</option>
-                    <option value="Business">Business</option>
-                    <option value="Engineering">Engineering</option>
-                    <option value="Architecture">Architecture</option>
-                </select>
-            </div>
+	    <form id="ticketForm"
+	          action="${pageContext.request.contextPath}/student/ticket?action=create"
+	          method="post"
+	          enctype="multipart/form-data">
+	
+	        <div class="form-grid">
+	            <div>
+				    <label for="name">Your Name:</label>
+				    <input
+				        type="text"
+				        id="name"
+				        name="name"
+				        value="<%= student.getFullname() %>"
+				        placeholder="e.g. John Doe" 
+				        readonly>
+				</div>
+	
+	            <div>
+				    <label for="studentId">Student ID Number:</label>
+				    <input
+				        type="text"
+				        id="studentId"
+				        name="studentId"
+				        placeholder="e.g. IT2312345"
+				        minlength="10"
+				        maxlength="10"
+				        value="<%= student.getStdid() %>" 
+				        readonly>
+				</div>
+	
+	            <div>
+	                <label for="faculty">Faculty:</label>
+	                <select id="faculty" name="faculty" required>
+	                    <option value="Computing">Computing</option>
+	                    <option value="Business">Business</option>
+	                    <option value="Engineering">Engineering</option>
+	                    <option value="Architecture">Architecture</option>
+	                </select>
+	            </div>
+	
+	            <div>
+	                <label for="subject">Subject:</label>
+	                <input
+	                    type="text"
+	                    id="subject"
+	                    name="subject"
+	                    required
+	                    placeholder="e.g. Request a PDF"
+	                    maxlength="100"
+	                    minlength="4">
+	            </div>
+	
+	            <div>
+	                <label for="email">Your Email:</label>
+	                <input
+	                    type="email"
+	                    id="email"
+	                    name="email"
+	                    required
+	                    placeholder="e.g. name@example.com"
+	                    maxlength="100"
+	                    minlength="6">
+	            </div>
+	
+	            <div>
+	                <label for="phone">Phone Number:</label>
+	                <input
+	                    type="text"
+	                    id="phone"
+	                    name="phone"
+	                    required
+	                    pattern="\d{10}"
+	                    title="Enter a 10-digit phone number"
+	                    placeholder="e.g. 0712345678"
+	                    minlength="10">
+	            </div>
+	
+	            <div class="full-width">
+	                <label for="issue">Issue Type:</label>
+	                <select id="issue" name="issueType">
+	                    <option value="Technical Issue">Technical Issue</option>
+	                    <option value="Account Problem">Account Problem</option>
+	                    <option value="Study Material Request">Study Material Request</option>
+	                    <option value="Other">Other</option>
+	                </select>
+	            </div>
+	
+	            <div class="full-width">
+	                <label for="description">Description:</label>
+	                <textarea
+	                    id="description"
+	                    name="description"
+	                    rows="4"
+	                    maxlength="500"
+	                    required
+	                    placeholder="Please describe the issue clearly (max 500 characters)"
+	                    minlength="4"></textarea>
+	            </div>
+	
+	            <div class="full-width">
+	                <div class="file-upload-wrapper">
+	                    <label class="custom-file-upload">
+	                        Attach File
+	                        <input
+	                            type="file"
+	                            id="attachment"
+	                            name="attachment"
+	                            accept=".jpg, .png, .pdf, .docx"
+	                            onchange="showFileName()">
+	                    </label>
+	                </div>
+	                <div class="file-name" id="file-name">No file selected</div>
+	            </div>
+	
+	            <div class="full-width">
+	                <button class="tBtn" type="submit">Submit Ticket</button>
+	            </div>
+	        </div>
+	    </form>
+	</section>
+</div>
+</div>
 
-            <div>
-                <label for="subject">Subject:</label>
-                <input type="text" id="subject" name="subject" required>
-            </div>
-
-            <div>
-                <label for="email">Your Email:</label>
-                <input type="email" id="email" name="email">
-            </div>
-
-            <div>
-                <label for="phone">Phone Number:</label>
-                <input type="text" id="phone" name="phone">
-            </div>
-
-            <div class="full-width">
-                <label for="issue">Issue Type:</label>
-                <select id="issue" name="issueType">
-                    <option value="Technical Issue">Technical Issue</option>
-                    <option value="Account Problem">Account Problem</option>
-                    <option value="Study Material Request">Study Material Request</option>
-                    <option value="Other">Other</option>
-                </select>
-            </div>
-
-            <div class="full-width">
-                <label for="description">Description:</label>
-                <textarea id="description" name="description" rows="4" required></textarea>
-            </div>
-
-            <div class="full-width">
-                <div class="file-upload-wrapper">
-                    <label class="custom-file-upload">
-                        Attach File
-                        <input type="file" id="attachment" name="attachment" accept=".jpg, .png, .pdf, .docx" onchange="showFileName()">
-                    </label>
-                </div>
-                <div class="file-name" id="file-name">No file selected</div>
-            </div>
-
-            <div class="full-width">
-                <button type="submit">Submit Ticket</button>
-            </div>
-        </div>
-    </form>
-</section>
-
-<%@ include file="../partials/footer.jsp"%>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -214,37 +285,18 @@
         const description = document.getElementById('description');
         const attachment = document.getElementById('attachment');
         const fileName = document.getElementById('file-name');
-        const charCount = document.querySelector('.char-count');
-
-        // Character count for description
-        description.addEventListener('input', function() {
-            const remaining = 500 - description.value.length;
-            charCount.textContent = `${description.value.length}/500 characters`;
-            
-            if (remaining < 50) {
-                charCount.style.color = 'red';
-            } else {
-                charCount.style.color = '#6c757d';
-            }
-        });
 
         // File upload preview
         attachment.addEventListener('change', function() {
             const file = this.files[0];
-            if (file) {
-                fileName.textContent = file.name;
-                fileName.style.color = '#007bff';
-            } else {
-                fileName.textContent = 'No file selected';
-                fileName.style.color = '#6c757d';
-            }
+            fileName.textContent = file ? file.name : 'No file selected';
+            fileName.style.color = file ? '#007bff' : '#6c757d';
         });
 
         // Form validation
         form.addEventListener('submit', function(e) {
             let isValid = true;
             const requiredFields = form.querySelectorAll('[required]');
-
             requiredFields.forEach(field => {
                 if (!field.value.trim()) {
                     field.style.borderColor = 'red';
@@ -253,12 +305,10 @@
                     field.style.borderColor = '#ccc';
                 }
             });
-
             if (description.value.length > 500) {
                 description.style.borderColor = 'red';
                 isValid = false;
             }
-
             if (!isValid) {
                 e.preventDefault();
                 alert('Please fill out all required fields correctly.');

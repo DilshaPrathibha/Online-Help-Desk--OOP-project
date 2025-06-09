@@ -1,14 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Help Desk</title>
+    <title>HelpAura</title>
     <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/partials/media/logo.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
         
@@ -18,31 +17,44 @@
             box-sizing: border-box;
             font-family: 'Poppins', sans-serif;
         }
-
+        
         body {
-            background-color: #f5f8fb;
+            background: #f5f5f5;
             color: #333;
-            line-height: 1.6;
         }
 
         header {
-            background-color: #0077cc;
-            padding: 20px 0;
-            color: #fff;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            position: relative;
-            padding-left: 40px;
+            background: #0077cc;
+            padding: 15px 0;
+            color: white;
+            position: sticky; 
+            top: 0; 
+            z-index: 1000;
         }
 
-        header h1 {
-            font-size: 2rem;
+        .header-title {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 10px;
+            margin-bottom: 10px;
+            padding-left: 150px; 
+        }
+
+        .header-title img {
+            height: 36px;
+        }
+
+        .header-title h1 {
+            font-size: 1.8rem;
             font-weight: 600;
-            letter-spacing: 1px;
-            text-align: left;
+            margin: 0;
         }
 
         nav {
-            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
         .menu-toggle {
@@ -51,7 +63,6 @@
             cursor: pointer;
             color: white;
             padding: 8px;
-            margin-top: 5px;
             text-align: right;
             width: 95%;
         }
@@ -63,106 +74,165 @@
         nav ul {
             list-style: none;
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px;
-            padding: 0 15px;
+            gap: 20px;
+            padding: 0;
+            align-items: center;
+        }
+
+        nav ul li {
+            display: inline-block;
         }
 
         nav ul li a {
             color: white;
             text-decoration: none;
             font-weight: 500;
-            padding: 10px 18px;
-            border-radius: 6px;
-            transition: all 0.3s ease;
-            position: relative;
+            padding: 10px 15px;
+            transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        /* Underline hover effect for non-btns */
-        nav ul li a:not(.btn)::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: 5px;
-            left: 50%;
-            background-color: #66ccff;
-            transition: all 0.3s ease;
-            transform: translateX(-50%);
+        nav ul li a:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
         }
-
-        nav ul li a:not(.btn):hover::after {
-            width: 100%;
-        }
-
-        nav ul li a:not(.btn):hover {
-            background-color: transparent;
-            color: #0a0c8a;
-        }
-
+        nav ul li a.back-btn:hover{
+			background: #d5d147;
+		}
+		nav ul li a.logoutB:hover{
+			background: #be4141;
+		}
         .btn {
-            background-color: #004f91;
-            border: none;
+            background: #005fa3;
+            padding: 10px 15px;
+            border-radius: 5px;
             font-weight: 600;
         }
 
         .btn:hover {
-            background-color: #003f75;
-            color: #fff;
+            background: #004a82;
         }
 
-        /* Responsive tweak */
+        .profile-icon {
+            font-size: 24px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .profile-dropdown {
+            position: absolute;
+            right: 0;
+            top: 40px;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: none;
+            min-width: 200px;
+            z-index: 1001;
+        }
+
+        .profile-dropdown a {
+            color: #333 !important;
+            display: block;
+            padding: 10px 15px;
+        }
+
+        .profile-dropdown a:hover {
+            background: #f0f0f0;
+        }
+
+        .profile-container {
+            position: relative;
+        }
+
+        .profile-container:hover .profile-dropdown {
+            display: block;
+        }
+
         @media (max-width: 768px) {
             .menu-toggle {
                 display: block;
             }
 
-            #nav-menu {
-                display: none;
+            nav ul {
                 flex-direction: column;
                 align-items: center;
+                display: none;
+                width: 100%;
                 gap: 10px;
             }
 
-            #nav-menu.active {
+            nav ul.active {
                 display: flex;
             }
 
-            #nav-menu li {
+            nav ul li {
                 width: 100%;
                 max-width: 280px;
             }
 
-            #nav-menu li a {
+            nav ul li a {
                 width: 100%;
                 text-align: center;
-                display: block;
                 padding: 10px 0;
+            }
+
+            .profile-dropdown {
+                right: 50%;
+                transform: translateX(50%);
             }
         }
     </style>
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
     <header>
-        <a href="../Bupathi/index.jsp" style="text-decoration: none; color: white; display: flex; align-items: center; gap: 10px;">
-    		<img src="${pageContext.request.contextPath}/partials/media/logo.png" alt="Logo" style="height: 36px;">
-    		<h1>Online Help Desk</h1>
-		</a>
-
+        <div class="header-title">
+            <a href="${pageContext.request.contextPath}/Bupathi/index.jsp" style="text-decoration: none; color: white; display: flex; align-items: center; gap: 10px;">
+                <img src="${pageContext.request.contextPath}/partials/media/logo.png" alt="Logo">
+                <h1>HelpAura</h1>
+            </a>
+        </div>
+        <div class="menu-toggle" onclick="toggleMenu()">☰</div>
         <nav>
-            <div class="menu-toggle" onclick="toggleMenu()">☰</div>
             <ul id="nav-menu">
-                <li><a href="../Shamal/forum.jsp">Forum</a></li>
-                <li><a href="../Dinali/materials.jsp">Study Materials</a></li>
-                <li><a href="videos.html">Videos</a></li>
-                <li><a href="../Dilsha/tickets.jsp">Support Tickets</a></li>
-                <li><a href="announcements.jsp">Live Announcements</a></li>
-                <li><a href="../Dinali/contact.jsp">Contact us</a></li>
-                <li><a href="../Shamal/faq.html">FAQ</a></li>
-                <li><a href="../Dinali/counseling.jsp">Counseling Services</a></li>
-                <li><a href="../Bupathi/login.jsp" class="btn">Login</a></li>
-                <li><a href="../Bupathi/register.jsp" class="btn">Register</a></li>
+                <li><a href="${pageContext.request.contextPath}/Bupathi/index.jsp"><span class="material-icons">home</span>Home</a></li>
+               <li><a href="${pageContext.request.contextPath}/ForumReadServlet"><span class="material-icons">forum</span>Forum</a></li>
+
+                <li><a href="${pageContext.request.contextPath}/Bupathi/studymaterials.jsp"><span class="material-icons">menu_book</span>Study Materials</a></li>
+                <li><a href="${pageContext.request.contextPath}/Bupathi/Videos.jsp"><span class="material-icons">smart_display</span>Videos</a></li>
+                <li><a href="${pageContext.request.contextPath}/Dinali/contact.jsp"><span class="material-icons">contact_mail</span>Contact us</a></li>
+                <li><a href="${pageContext.request.contextPath}/Shamal/faq.jsp"><span class="material-icons">help</span>FAQ</a></li>
+                <li><a href="${pageContext.request.contextPath}/Dinali/counseling.jsp"><span class="material-icons">psychology</span>Counseling Services</a></li>
+
+                <c:choose>
+                    <c:when test="${not empty sessionScope.student}">
+                        <li class="profile-container">
+                            <a class="profile-icon"><span class="material-icons">account_circle</span></a>
+                            <div class="profile-dropdown">
+                                <a href="${pageContext.request.contextPath}/student/dashboard" class="back-btn"><span class="material-icons">dashboard</span>Back to Dashboard</a>
+                                <a href="${pageContext.request.contextPath}/logout" class="logoutB"><span class="material-icons">logout</span> Logout</a>
+                            </div>
+                        </li>
+                    </c:when>
+                    <c:when test="${not empty sessionScope.admin}">
+                        <li class="profile-container">
+                            <a class="profile-icon"><span class="material-icons">account_circle</span></a>
+                            <div class="profile-dropdown">
+                                <a href="${pageContext.request.contextPath}/admin/dashboard" class="back-btn"><span class="material-icons">dashboard</span>Back to Dashboard</a>
+                                <a href="${pageContext.request.contextPath}/logout"  class="logoutB"><span class="material-icons">logout</span> Logout</a>
+                            </div>
+                        </li>
+                    </c:when>
+                    <c:otherwise>
+                        <li><a href="${pageContext.request.contextPath}/Bupathi/login.jsp" class="btn"><span class="material-icons">login</span>Login</a></li>
+                        <li><a href="${pageContext.request.contextPath}/Bupathi/register.jsp" class="btn"><span class="material-icons">person_add</span>Register</a></li>
+                    </c:otherwise>
+                </c:choose>
             </ul>
         </nav>
     </header>
