@@ -1,14 +1,17 @@
 package servlet;
 
-import services.TicketService;
+import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.*;
-import java.io.IOException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/admin/update-ticket")
-public class UpdateTicketServlet extends HttpServlet {
+import services.TicketService;
+
+@WebServlet("/UpdateTicketStatusServlet")
+public class UpdateTicketStatusServlet extends HttpServlet {
     private TicketService ticketService;
 
     @Override
@@ -19,12 +22,9 @@ public class UpdateTicketServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int ticketId = Integer.parseInt(request.getParameter("ticketId"));
-        String subject = request.getParameter("subject");
-        String description = request.getParameter("description");
+        int ticketId = Integer.parseInt(request.getParameter("id"));
         String status = request.getParameter("status");
-
-        ticketService.updateTicket(ticketId, subject, description, status);
-        response.sendRedirect(request.getContextPath() + "/admin/tickets");
+        ticketService.updateTicketStatus(ticketId, status);
+        response.sendRedirect("admin/tickets");
     }
 }

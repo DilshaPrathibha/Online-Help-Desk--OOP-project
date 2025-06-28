@@ -1,7 +1,5 @@
 package model;
 
-
-
 public class Message {
     private String type; // "success", "error", etc.
     private String content;

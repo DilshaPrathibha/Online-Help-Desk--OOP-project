@@ -1,321 +1,202 @@
+<%@ include file="../partials/adminHeader.jsp" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Register Form</title>
+    <title>Manage Students</title>
     <style>
-        body {
-            font-family: 'Segoe UI', sans-serif;
+        .student-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .student-table th, .student-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        .student-table th {
+            background-color: #2c3e50;
+            color: white;
+        }
+        .student-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .student-table tr:hover {
+            background-color: #e6f7ff;
+        }
+        .admin-container {
+            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background: url('media/girlwritting.jpg') no-repeat center center fixed;
-            background-size: cover;
-            background-attachment: fixed;
-            min-height: 100vh;
         }
-
-        .register-form {
-            max-width: 450px;
-            background-color: rgba(255, 255, 255, 0.85);
-            padding: 30px;
-            margin: 80px auto 40px auto;
-            border-radius: 15px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.25);
-            color: #333;
+        .admin-main {
+            padding: 20px;
         }
-
-        h2 {
-            text-align: center;
-            color: #0056b3;
-            margin-bottom: 25px;
-            font-weight: bold;
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
         }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-            color: #333;
-            font-weight: 500;
+        .btn-primary {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
         }
-
-        input[type="text"],
-        input[type="email"],
-        input[type="tel"],
-        input[type="date"],
-        input[type="password"],
-        select {
-            width: 100%;
+        .search-container {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        .search-input {
             padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            transition: 0.3s;
-            background-color: #fff;
+            width: 300px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
         }
-
-        input:focus, select:focus {
-            border-color: #007BFF;
-            box-shadow: 0 0 5px rgba(0,123,255,0.4);
-            outline: none;
-        }
-
-        .error-message {
-            color: red;
-            font-size: 12px;
-            display: none;
-            margin-top: -5px;
-            margin-bottom: 10px;
-        }
-
-        input.invalid {
-            border: 1px solid #ff6b6b;
-            background-color: #fff0f0;
-        }
-
-        input.valid {
-            border: 1px solid #51cf66;
-            background-color: #f0fff4;
-        }
-
-        button[type="submit"] {
-            background-color: #007BFF;
+        .search-btn {
+            padding: 10px 15px;
+            background-color: #2c3e50;
             color: white;
             border: none;
-            width: 100%;
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 16px;
+            border-radius: 4px;
             cursor: pointer;
-            transition: 0.3s;
-            font-weight: bold;
         }
-
-        button[type="submit"]:hover {
-            background-color: #0056b3;
-        }
-
-        select {
-            appearance: none;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23007BFF'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
-            background-repeat: no-repeat;
-            background-position: right 10px center;
-            background-size: 15px;
-        }
-
-        footer {
-            background-color: rgba(0,0,0,0.7);
-            color: white;
-            padding: 10px;
+        .no-results {
             text-align: center;
+            padding: 20px;
+            color: #666;
+            font-style: italic;
         }
     </style>
 </head>
-
-<body id="registerbody">
-    <div class="register-form">
-        <h2>Register Form</h2>
-        <form id="register-form" method="post" action="${pageContext.request.contextPath}/Addstudent" onsubmit="return validateForm()">
-
-            <div class="input-container">
-                <label for="fullname">Full Name</label>
-                <input type="text" id="fullname" name="fullname">
-                <span class="error-message" id="fullnameError">Name should contain only letters and spaces</span>
+<body>
+    <div class="admin-container">
+    <%@ include file="../partials/adminBar.jsp" %>
+      
+        <div class="admin-main">
+            <div class="admin-header">
+                <h1>Student Management</h1>
+                <div class="admin-actions">
+                   
+                </div>
             </div>
-
-            <div class="input-container">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email">
-                <span class="error-message" id="emailError">Please enter a valid email address</span>
+            
+            <!-- Search Form -->
+            <div class="search-container">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search by name, ID, email..." 
+                       onkeyup="searchTable()">
+                <button class="search-btn" onclick="searchTable()">Search</button>
             </div>
-
-            <div class="input-container">
-                <label for="phone">Phone Number</label>
-                <input type="tel" id="phone" name="phone">
-                <span class="error-message" id="phoneError">Phone must be 10 digits starting with 0</span>
-            </div>
-
-            <div class="input-container">
-                <label for="studentID">Student ID</label>
-                <input type="text" id="studentID" name="studentID">
-                <span class="error-message" id="studentIDError">Format: IT/It followed by 8 digits (e.g., IT23453456)</span>
-            </div>
-
-            <div class="input-container">
-                <label for="semester">Semester</label>
-                <select id="semester" name="semester">
-                    <option value="">Select Semester</option>
-                    <option value="1">Semester 1</option>
-                    <option value="2">Semester 2</option>
-                    <option value="3">Semester 3</option>
-                    <option value="4">Semester 4</option>
-                    <option value="5">Semester 5</option>
-                    <option value="6">Semester 6</option>
-                    <option value="7">Semester 7</option>
-                    <option value="8">Semester 8</option>
-                </select>
-                <span class="error-message" id="semesterError">Please select a semester</span>
-            </div>
-
-            <div class="input-container">
-                <label for="studyField">Field of Study</label>
-                <select id="studyField" name="studyField">
-                    <option value="">Select Field</option>
-                    <option value="IT">Information Technology</option>
-                    <option value="CS">Computer Science</option>
-                    <option value="SE">Software Engineering</option>
-                    <option value="DS">Data Science</option>
-                    <option value="Cyber">Cyber Security</option>
-                </select>
-                <span class="error-message" id="studyFieldError">Please select a field of study</span>
-            </div>
-
-            <div class="input-container">
-                <label for="dob">Date of Birth</label>
-                <input type="date" id="dob" name="dob">
-                <span class="error-message" id="dobError">Birth date must be before 2003</span>
-            </div>
-
-            <div class="input-container">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username">
-                <span class="error-message" id="usernameError">Username is required</span>
-            </div>
-
-            <div class="input-container">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password">
-                <span class="error-message" id="passwordError">Password must be at least 8 characters with uppercase, lowercase, number and special character</span>
-            </div>
-
-            <div class="input-container">
-                <label for="confirmPassword">Confirm Password</label>
-                <input type="password" id="confirmPassword" name="confirmPassword">
-                <span class="error-message" id="confirmPasswordError">Passwords must match</span>
-            </div>
-
-            <button type="submit">Register</button>
-        </form>
+            
+            <table class="student-table" id="studentTable">
+    <thead>
+        <tr>
+            <th>Student ID</th>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Semester</th>
+            <th>Field of Study</th>
+            <th>Actions</th> <!-- NEW COLUMN -->
+        </tr>
+    </thead>
+    <tbody>
+        <c:choose>
+            <c:when test="${not empty students}">
+                <c:forEach items="${students}" var="student">
+                    <tr>
+                        <td>${student.stdid}</td>
+                        <td>${student.fullname}</td>
+                        <td>${student.email}</td>
+                        <td>${student.semester}</td>
+                        <td>${student.fos}</td>
+                        <td>
+                            <form method="post"  action="${pageContext.request.contextPath}/deleteStudent" onsubmit="return confirmDelete('${student.stdid}', '${student.fullname}')">
+                                <input type="hidden" name="stid" value="${student.stdid}" />
+                                <button type="submit" class="btn-primary" style="background-color: red;">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </c:when>
+            <c:otherwise>
+                <tr>
+                    <td colspan="6" class="no-results">No students found</td> <!-- Updated colspan -->
+                </tr>
+            </c:otherwise>
+        </c:choose>
+    </tbody>
+</table>
+            
+        </div>
     </div>
 
-    <%@ include file="../partials/footer.jsp" %>
-
     <script>
-        document.getElementById('fullname').addEventListener('input', validateFullName);
-        document.getElementById('email').addEventListener('input', validateEmail);
-        document.getElementById('phone').addEventListener('input', validatePhone);
-        document.getElementById('studentID').addEventListener('input', validateStudentID);
-        document.getElementById('semester').addEventListener('change', validateSemester);
-        document.getElementById('studyField').addEventListener('change', validateStudyField);
-        document.getElementById('dob').addEventListener('change', validateDOB);
-        document.getElementById('username').addEventListener('input', validateUsername);
-        document.getElementById('password').addEventListener('input', validatePassword);
-        document.getElementById('confirmPassword').addEventListener('input', validateConfirmPassword);
-
-        function validateFullName() {
-            const fullname = document.getElementById('fullname').value;
-            const regex = /^[a-zA-Z\s]+$/;
-            const isValid = regex.test(fullname) && fullname.length >= 3;
-            toggleValidation('fullname', isValid, 'fullnameError');
-            return isValid;
-        }
-
-        function validateEmail() {
-            const email = document.getElementById('email').value;
-            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            const isValid = regex.test(email);
-            toggleValidation('email', isValid, 'emailError');
-            return isValid;
-        }
-
-        function validatePhone() {
-            const phone = document.getElementById('phone').value;
-            const regex = /^0\d{9}$/;
-            const isValid = regex.test(phone);
-            toggleValidation('phone', isValid, 'phoneError');
-            return isValid;
-        }
-
-        function validateStudentID() {
-            const studentID = document.getElementById('studentID').value;
-            const regex = /^(IT|it)\d{8}$/i;
-            const isValid = regex.test(studentID);
-            toggleValidation('studentID', isValid, 'studentIDError');
-            return isValid;
-        }
-
-        function validateSemester() {
-            const semester = document.getElementById('semester').value;
-            const isValid = semester !== '';
-            toggleValidation('semester', isValid, 'semesterError');
-            return isValid;
-        }
-
-        function validateStudyField() {
-            const studyField = document.getElementById('studyField').value;
-            const isValid = studyField !== '';
-            toggleValidation('studyField', isValid, 'studyFieldError');
-            return isValid;
-        }
-
-        function validateDOB() {
-            const dob = document.getElementById('dob').value;
-            if (!dob) {
-                toggleValidation('dob', false, 'dobError');
-                return false;
+        function searchTable() {
+            // Get input value and convert to lowercase
+            const input = document.getElementById("searchInput");
+            const filter = input.value.toLowerCase();
+            
+            // Get table and rows
+            const table = document.getElementById("studentTable");
+            const rows = table.getElementsByTagName("tr");
+            
+            let found = false;
+            
+            // Loop through all table rows (skip header row)
+            for (let i = 1; i < rows.length; i++) {
+                const row = rows[i];
+                const cells = row.getElementsByTagName("td");
+                let rowContainsText = false;
+                
+                // Check each cell in the row (except actions cell)
+                for (let j = 0; j < cells.length; j++) {
+                    const cell = cells[j];
+                    if (cell) {
+                        const text = cell.textContent || cell.innerText;
+                        if (text.toLowerCase().indexOf(filter) > -1) {
+                            rowContainsText = true;
+                            break;
+                        }
+                    }
+                }
+                
+                // Show/hide row based on search match
+                if (rowContainsText) {
+                    row.style.display = "";
+                    found = true;
+                } else {
+                    row.style.display = "none";
+                }
             }
-            const dobDate = new Date(dob);
-            const cutoffDate = new Date('2003-01-01');
-            const isValid = dobDate < cutoffDate;
-            toggleValidation('dob', isValid, 'dobError');
-            return isValid;
-        }
-
-        function validateUsername() {
-            const username = document.getElementById('username').value;
-            const isValid = username.length >= 4;
-            toggleValidation('username', isValid, 'usernameError');
-            return isValid;
-        }
-
-        function validatePassword() {
-            const password = document.getElementById('password').value;
-            const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-            const isValid = regex.test(password);
-            toggleValidation('password', isValid, 'passwordError');
-            if (document.getElementById('confirmPassword').value) {
-                validateConfirmPassword();
-            }
-            return isValid;
-        }
-
-        function validateConfirmPassword() {
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-            const isValid = confirmPassword === password && password !== '';
-            toggleValidation('confirmPassword', isValid, 'confirmPasswordError');
-            return isValid;
-        }
-
-        function toggleValidation(fieldId, isValid, errorId) {
-            const field = document.getElementById(fieldId);
-            const error = document.getElementById(errorId);
-
-            if (isValid) {
-                field.classList.remove('invalid');
-                field.classList.add('valid');
-                error.style.display = 'none';
-            } else {
-                field.classList.remove('valid');
-                field.classList.add('invalid');
-                error.style.display = 'block';
+            
+            // Show "no results" message if no matches found
+            const noResultsRow = table.querySelector(".no-results");
+            if (noResultsRow) {
+                noResultsRow.style.display = found ? "none" : "";
             }
         }
+        
+        function confirmDelete(stid, name) {
+            const firstConfirm = confirm(
+                "⚠ WARNING: You are about to delete student '" + name + "' (ID: " + stid + ").\n\n" +
+                "This will permanently delete ALL data associated with this student:\n" +
+                "- Credit Cards\n- Transactions\n- Appointments\n\n" +
+                "Are you sure you want to continue?"
+            );
 
-        function validateForm() {
-            return validateFullName() && validateEmail() && validatePhone() && validateStudentID() &&
-                   validateSemester() && validateStudyField() && validateDOB() &&
-                   validateUsername() && validatePassword() && validateConfirmPassword();
+            if (firstConfirm) {
+                return confirm("🚨 Final Confirmation: Are you absolutely sure you want to DELETE this student?");
+            }
+
+            return false; // cancel form submit if not confirmed
         }
     </script>
 </body>
